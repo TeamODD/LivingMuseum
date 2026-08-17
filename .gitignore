@@ -105,3 +105,13 @@ InitTestScene*.unity*
 
 # Auto-generated cache in Assets folder
 /[Aa]ssets/[Ss]ceneDependencyCache*
+
+# Unity project lives in Living_Museum/ subdirectory (root-anchored rules above do not apply)
+Living_Museum/[Ll]ibrary/
+Living_Museum/[Tt]emp/
+Living_Museum/[Oo]bj/
+Living_Museum/[Bb]uild/
+Living_Museum/[Bb]uilds/
+Living_Museum/[Ll]ogs/
+Living_Museum/[Uu]ser[Ss]ettings/
+Living_Museum/.vscode/
