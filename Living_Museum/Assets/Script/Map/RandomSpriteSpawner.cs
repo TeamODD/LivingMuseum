@@ -10,6 +10,8 @@ public class RandomSpriteSpawner : MonoBehaviour
     [Header("Convert")]
     public float interval = 8f;
     public int typeCount = 10;
+    public int maxPerZone = 2;
+    public bool excludeEndZones = true;
     public Vector2 anomalySize = new Vector2(0.5f, 0.5f);
 
     [Header("Record")]
@@ -44,13 +46,16 @@ public class RandomSpriteSpawner : MonoBehaviour
         if (arts.Length == 0)
             return;
 
-        NormalArt art = arts[Random.Range(0, arts.Length)];
-        int zoneIndex = zoneLayout.GetZoneIndex(art.transform.position);
+        List<int> openZones = GetOpenZones();
+        if (openZones.Count == 0)
+            return;
 
-        Destroy(art.gameObject);
-
+        int zoneIndex = openZones[Random.Range(0, openZones.Count)];
         if (!zoneLayout.TryGetRandomPositionInZone(zoneIndex, anomalySize, out Vector2 pos))
             return;
+
+        NormalArt art = arts[Random.Range(0, arts.Length)];
+        Destroy(art.gameObject);
 
         int typePick = Random.Range(0, remainingTypes.Count);
         string typeId = remainingTypes[typePick];
@@ -66,6 +71,29 @@ public class RandomSpriteSpawner : MonoBehaviour
 
         spawnRecords.Add(new SpawnRecord(typeId, zoneIndex, pos, anomalySize));
         Debug.Log("[Convert] " + typeId + " zone=" + zoneIndex + " pos=(" + pos.x.ToString("F2") + ", " + pos.y.ToString("F2") + ")");
+    }
+
+    List<int> GetOpenZones()
+    {
+        List<int> zones = zoneLayout.GetSpawnableZoneIndices(excludeEndZones);
+        List<int> open = new List<int>();
+
+        for (int i = 0; i < zones.Count; i++)
+        {
+            int zone = zones[i];
+            int count = 0;
+
+            for (int r = 0; r < spawnRecords.Count; r++)
+            {
+                if (spawnRecords[r].zoneIndex == zone)
+                    count++;
+            }
+
+            if (count < maxPerZone)
+                open.Add(zone);
+        }
+
+        return open;
     }
 
     public IReadOnlyList<SpawnRecord> GetRecords()
