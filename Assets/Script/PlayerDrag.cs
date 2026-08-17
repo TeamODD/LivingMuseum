@@ -6,9 +6,20 @@ public class PlayerDrag : MonoBehaviour, IDragHandler
     [SerializeField] float anoX;//이상현상의 x좌표
     [SerializeField] float anoY;//이상현상의 y좌표
     [SerializeField] Reputation reputation;//평판 스크립트를 받아서 평판 까일지 안까일지 직접 조작
-    public void OnDrag(PointerEventData eventData)//드래그 함수
+    private RectTransform rectTransform;
+    private Canvas canvas;
+
+    private void Awake()
     {
-        transform.position += (Vector3)eventData.delta;
+        rectTransform = GetComponent<RectTransform>();
+        // 현재 UI가 속한 최상위 Canvas를 가져옵니다.
+        canvas = GetComponentInParent<Canvas>();
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        // 픽셀 이동량을 캔버스 배율로 나누어 로컬 UI 좌표에 더해줍니다.
+        rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
     private void Update()
     {
