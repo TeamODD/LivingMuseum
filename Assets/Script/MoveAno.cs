@@ -5,7 +5,7 @@ using DG.Tweening;
 public class MoveAno : MonoBehaviour
 {
     [SerializeField] GameObject MoveObj;
-    [SerializeField] GameObject FightObj;
+    [SerializeField] GameObject FightObj;    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -35,6 +35,5 @@ public class MoveAno : MonoBehaviour
         MoveObj.SetActive(false);
         FightObj.SetActive(true);
         FightObj.transform.DOScale(5, 10);
-    }
-
+    }    
 }

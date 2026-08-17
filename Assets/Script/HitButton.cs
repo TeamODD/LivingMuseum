@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using DG.Tweening;
+using System.Collections;
+using Kino;
 
 public class HitButton : MonoBehaviour, IPointerClickHandler
 {
@@ -12,6 +14,8 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     [SerializeField] private int vibrato = 20;            // 진동 횟수
     [SerializeField] int hp;
     [SerializeField] AudioSource hitsound;
+    [SerializeField] private Transform targetCamera;
+    [SerializeField] AnalogGlitch analogGlitch;
 
     private Image targetImage;
     private RectTransform rectTransform;
@@ -34,6 +38,11 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     private void OnEnable()
     {
         hp = 40;
+        StartCoroutine("Glitch");
+    }
+    private void OnDisable()
+    {
+        analogGlitch.horizontalShake = 0;
     }
 
     public void OnPointerClick(PointerEventData eventData)
@@ -59,5 +68,27 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
         }
 
         shakeTween = rectTransform.DOShakeAnchorPos(duration, shakeStrength, vibrato);
+    }
+
+    public void ShakeCamera()
+    {
+        targetCamera.DOKill(true);
+    }
+
+    IEnumerator Glitch()
+    {
+        if(analogGlitch.scanLineJitter <= 0.5)
+        {
+            analogGlitch.scanLineJitter += 0.01f;
+            analogGlitch.colorDrift += 0.01f;
+        }
+        else
+        {
+            analogGlitch.scanLineJitter += 0.01f;
+            analogGlitch.colorDrift += 0.01f;
+            analogGlitch.horizontalShake += 0.02f;
+        }
+        yield return new WaitForSeconds(0.05f);
+        StartCoroutine("Glitch");
     }
 }
