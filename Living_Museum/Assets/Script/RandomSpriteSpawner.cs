@@ -5,83 +5,71 @@ public class RandomSpriteSpawner : MonoBehaviour
 {
     [Header("References")]
     public RoomZoneLayout zoneLayout;
-    public GameObject spritePrefab;
+    public GameObject anomalyPrefab;
 
-    [Header("Spawn Rules")]
-    public int maxTotalSpawns = 3;
-    public bool excludeEndZones = true;
-
-    [Header("Size")]
-    public Vector2 spriteSize = new Vector2(0.5f, 0.5f);
+    [Header("Convert")]
+    public float interval = 8f;
+    public int typeCount = 10;
+    public Vector2 anomalySize = new Vector2(0.5f, 0.5f);
 
     [Header("Record")]
     public List<SpawnRecord> spawnRecords = new List<SpawnRecord>();
 
-    readonly List<GameObject> spawnedObjects = new List<GameObject>();
+    float timer;
+    List<string> remainingTypes = new List<string>();
 
     void Start()
     {
-        SpawnAll();
+        remainingTypes.Clear();
+        for (int i = 0; i < typeCount; i++)
+            remainingTypes.Add("anomaly_" + i);
     }
 
-    public void SpawnAll()
+    void Update()
     {
-        ClearSpawned();
+        timer += Time.deltaTime;
+        if (timer < interval)
+            return;
 
-        List<int> candidates = zoneLayout.GetSpawnableZoneIndices(excludeEndZones);
-        Shuffle(candidates);
-
-        int spawnCount = Mathf.Min(maxTotalSpawns, candidates.Count);
-
-        for (int i = 0; i < spawnCount; i++)
-        {
-            int zoneIndex = candidates[i];
-
-            if (!zoneLayout.TryGetRandomPositionInZone(zoneIndex, spriteSize, out Vector2 pos))
-                continue;
-
-            string id = $"sprite_{i}";
-            GameObject obj = Instantiate(spritePrefab, transform);
-            obj.transform.position = new Vector3(pos.x, pos.y, 0f);
-            obj.transform.localScale = new Vector3(spriteSize.x, spriteSize.y, 1f);
-
-            SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-            if (sr != null)
-                sr.sortingOrder = 2;
-
-            spawnedObjects.Add(obj);
-
-            SpawnRecord record = new SpawnRecord(id, zoneIndex, pos, spriteSize);
-            spawnRecords.Add(record);
-
-            Debug.Log($"[Spawn] {id} zone={zoneIndex} pos=({pos.x:F2}, {pos.y:F2})");
-        }
+        timer = 0f;
+        ConvertOne();
     }
 
-    public void ClearSpawned()
+    void ConvertOne()
     {
-        spawnRecords.Clear();
+        if (remainingTypes.Count == 0)
+            return;
 
-        for (int i = spawnedObjects.Count - 1; i >= 0; i--)
-        {
-            if (spawnedObjects[i] != null)
-                Destroy(spawnedObjects[i]);
-        }
+        NormalArt[] arts = FindObjectsByType<NormalArt>(FindObjectsSortMode.None);
+        if (arts.Length == 0)
+            return;
 
-        spawnedObjects.Clear();
+        NormalArt art = arts[Random.Range(0, arts.Length)];
+        int zoneIndex = zoneLayout.GetZoneIndex(art.transform.position);
+
+        Destroy(art.gameObject);
+
+        if (!zoneLayout.TryGetRandomPositionInZone(zoneIndex, anomalySize, out Vector2 pos))
+            return;
+
+        int typePick = Random.Range(0, remainingTypes.Count);
+        string typeId = remainingTypes[typePick];
+        remainingTypes.RemoveAt(typePick);
+
+        GameObject obj = Instantiate(anomalyPrefab, transform);
+        obj.transform.position = new Vector3(pos.x, pos.y, 0f);
+        obj.transform.localScale = new Vector3(anomalySize.x, anomalySize.y, 1f);
+
+        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
+        if (sr != null)
+            sr.sortingOrder = 2;
+
+        spawnRecords.Add(new SpawnRecord(typeId, zoneIndex, pos, anomalySize));
+        Debug.Log("[Convert] " + typeId + " zone=" + zoneIndex + " pos=(" + pos.x.ToString("F2") + ", " + pos.y.ToString("F2") + ")");
     }
 
     public IReadOnlyList<SpawnRecord> GetRecords()
     {
         return spawnRecords;
-    }
-
-    static void Shuffle(List<int> list)
-    {
-        for (int i = list.Count - 1; i > 0; i--)
-        {
-            int j = Random.Range(0, i + 1);
-            (list[i], list[j]) = (list[j], list[i]);
-        }
     }
 }

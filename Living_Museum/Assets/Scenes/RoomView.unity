@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 26152780}
   - component: {fileID: 26152779}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: others_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -221,7 +221,8 @@ GameObject:
   m_Component:
   - component: {fileID: 154498855}
   - component: {fileID: 154498854}
-  m_Layer: 0
+  - component: {fileID: 154498856}
+  m_Layer: 1
   m_Name: others_4 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -303,6 +304,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &154498856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 154498853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &235964564
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +326,8 @@ GameObject:
   m_Component:
   - component: {fileID: 235964566}
   - component: {fileID: 235964565}
-  m_Layer: 0
+  - component: {fileID: 235964567}
+  m_Layer: 1
   m_Name: others_4 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,6 +409,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &235964567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 235964564}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &559797809
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +510,8 @@ GameObject:
   m_Component:
   - component: {fileID: 638327060}
   - component: {fileID: 638327059}
-  m_Layer: 0
+  - component: {fileID: 638327061}
+  m_Layer: 1
   m_Name: others_2 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -566,6 +593,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &638327061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 638327058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &743596399
 GameObject:
   m_ObjectHideFlags: 0
@@ -576,7 +615,8 @@ GameObject:
   m_Component:
   - component: {fileID: 743596401}
   - component: {fileID: 743596400}
-  m_Layer: 0
+  - component: {fileID: 743596402}
+  m_Layer: 1
   m_Name: others_0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,6 +698,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &743596402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 743596399}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &1047091441
 GameObject:
   m_ObjectHideFlags: 0
@@ -668,7 +720,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1047091443}
   - component: {fileID: 1047091442}
-  m_Layer: 0
+  m_Layer: 1
   m_Name: others_1 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1014,7 +1066,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1477796922}
   - component: {fileID: 1477796921}
-  m_Layer: 0
+  - component: {fileID: 1477796923}
+  m_Layer: 1
   m_Name: others_2 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1096,6 +1149,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1477796923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1477796920}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &1595274361
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,7 +1171,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1595274363}
   - component: {fileID: 1595274362}
-  m_Layer: 0
+  - component: {fileID: 1595274364}
+  m_Layer: 1
   m_Name: others_4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1188,6 +1254,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1595274364
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595274361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &1621120240
 GameObject:
   m_ObjectHideFlags: 0
@@ -1304,7 +1382,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1944449478}
   - component: {fileID: 1944449477}
-  m_Layer: 0
+  - component: {fileID: 1944449479}
+  m_Layer: 1
   m_Name: others_0 (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1386,6 +1465,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1944449479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944449476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &2028669559
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,7 +1487,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2028669561}
   - component: {fileID: 2028669560}
-  m_Layer: 0
+  - component: {fileID: 2028669562}
+  m_Layer: 1
   m_Name: others_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1478,6 +1570,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2028669562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028669559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &2050731072
 GameObject:
   m_ObjectHideFlags: 0
@@ -1488,7 +1592,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2050731074}
   - component: {fileID: 2050731073}
-  m_Layer: 0
+  - component: {fileID: 2050731075}
+  m_Layer: 1
   m_Name: others_0 (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1570,6 +1675,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2050731075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2050731072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1830de5b9eb31a746b786f6ee82035f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalArt
 --- !u!1 &2139923115
 GameObject:
   m_ObjectHideFlags: 0
@@ -1600,10 +1717,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RandomSpriteSpawner
   zoneLayout: {fileID: 1621120241}
-  spritePrefab: {fileID: 9187987956339343084, guid: a4e963ba07a3b0f45bd61a18b1ef4348, type: 3}
-  maxTotalSpawns: 3
-  excludeEndZones: 1
-  spriteSize: {x: 1, y: 1}
+  anomalyPrefab: {fileID: 9187987956339343084, guid: a4e963ba07a3b0f45bd61a18b1ef4348, type: 3}
+  interval: 8
+  typeCount: 10
+  anomalySize: {x: 0.5, y: 0.5}
   spawnRecords: []
 --- !u!4 &2139923117
 Transform:

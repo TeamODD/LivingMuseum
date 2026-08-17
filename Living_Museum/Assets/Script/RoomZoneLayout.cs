@@ -52,6 +52,14 @@ public class RoomZoneLayout : MonoBehaviour
         return GetTotalBounds().size.x / zoneCount;
     }
 
+    public int GetZoneIndex(Vector2 worldPos)
+    {
+        Bounds total = GetTotalBounds();
+        float zoneWidth = total.size.x / zoneCount;
+        int index = Mathf.FloorToInt((worldPos.x - total.min.x) / zoneWidth);
+        return Mathf.Clamp(index, 0, zoneCount - 1);
+    }
+
     public List<int> GetSpawnableZoneIndices(bool excludeEnds = true)
     {
         var indices = new List<int>();
