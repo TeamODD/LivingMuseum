@@ -5,11 +5,12 @@ using DG.Tweening;
 public class MoveAno : MonoBehaviour
 {
     [SerializeField] GameObject MoveObj;
-    [SerializeField] GameObject FightObj;    
+    [SerializeField] GameObject FightObj;
+    [SerializeField] bool isMoveX;//체크하면 좌우이동, 아니면 상하이동
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        StartCoroutine("Move");
+
     }
 
     // Update is called once per frame
@@ -20,7 +21,10 @@ public class MoveAno : MonoBehaviour
     private void OnEnable()
     {
         FightObj.transform.localScale= Vector3.one;
-        StartCoroutine("Move");
+        if (isMoveX)
+            StartCoroutine("Move");
+        else
+            StartCoroutine("Move2");
     }
     IEnumerator Move()
     {
@@ -28,6 +32,13 @@ public class MoveAno : MonoBehaviour
         transform.DOLocalMoveX(x,0.2f);
         yield return new WaitForSeconds(0.3f);
         StartCoroutine("Move");
+    }
+    IEnumerator Move2()
+    {
+        int y = Random.Range(-100, 100);
+        transform.DOLocalMoveY(y, 0.2f);
+        yield return new WaitForSeconds(0.3f);
+        StartCoroutine("Move2");
     }
 
     public void YachaStart()
