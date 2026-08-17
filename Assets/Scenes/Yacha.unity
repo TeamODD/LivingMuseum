@@ -522,6 +522,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MoveAno
   MoveObj: {fileID: 633726588}
   FightObj: {fileID: 1878822117}
+  isMoveX: 1
 --- !u!1 &743579480
 GameObject:
   m_ObjectHideFlags: 0
