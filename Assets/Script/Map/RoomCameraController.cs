@@ -1,24 +1,23 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Camera))]
 public class RoomCameraController : MonoBehaviour
 {
-    const float TargetAspect = 4f / 3f;
-
-    [Header("References")]
     public RoomZoneLayout zoneLayout;
-
-    [Header("Camera")]
+    public RectTransform contentRoot;
     public int startZoneIndex = 0;
-    public float moveSmoothTime = 0.25f;
+    public float moveSpeed = 8f;
 
     Camera cam;
-    int currentZoneIndex;
-    float targetCameraX;
-    float velocityX;
+    RectTransform roomRect;
+    int currentZone;
 
-    public int CurrentZoneIndex => currentZoneIndex;
+    public int CurrentZone
+    {
+        get { return currentZone; }
+    }
 
     void Awake()
     {
@@ -28,85 +27,76 @@ public class RoomCameraController : MonoBehaviour
 
     void Start()
     {
+        roomRect = zoneLayout.GetComponent<RectTransform>();
+        currentZone = Mathf.Clamp(startZoneIndex, 0, zoneLayout.zoneCount - 1);
+
         ApplyAspectRatio();
-        FitCameraToSingleZone();
-        MoveToZone(startZoneIndex, immediate: true);
+        FitRoomHeightToScreen();
+        MoveContent(GetDistanceToZone());
     }
 
     void Update()
     {
         ApplyAspectRatio();
+        FitRoomHeightToScreen();
         HandleInput();
-        SmoothFollowTarget();
+        MoveContent(GetDistanceToZone() * Mathf.Clamp01(moveSpeed * Time.deltaTime));
     }
 
     void HandleInput()
     {
-        if (Keyboard.current == null || zoneLayout == null)
+        if (Keyboard.current == null)
             return;
 
         if (Keyboard.current.dKey.wasPressedThisFrame)
-            MoveToZone(currentZoneIndex + 1);
+            currentZone = Mathf.Min(currentZone + 1, zoneLayout.zoneCount - 1);
 
         if (Keyboard.current.aKey.wasPressedThisFrame)
-            MoveToZone(currentZoneIndex - 1);
+            currentZone = Mathf.Max(currentZone - 1, 0);
     }
 
-    void SmoothFollowTarget()
+    float GetDistanceToZone()
     {
-        Vector3 pos = transform.position;
-        pos.x = Mathf.SmoothDamp(pos.x, targetCameraX, ref velocityX, moveSmoothTime);
-        transform.position = pos;
+        return -(roomRect.anchoredPosition.x + zoneLayout.GetZoneCenterX(currentZone));
     }
 
-    public void MoveToZone(int zoneIndex, bool immediate = false)
+    void MoveContent(float amount)
     {
-        if (zoneLayout == null)
-            return;
-
-        zoneIndex = Mathf.Clamp(zoneIndex, 0, zoneLayout.ZoneCount - 1);
-        currentZoneIndex = zoneIndex;
-        targetCameraX = zoneLayout.GetZoneCenter(zoneIndex).x;
-
-        if (immediate)
+        for (int i = 0; i < contentRoot.childCount; i++)
         {
-            Vector3 pos = transform.position;
-            pos.x = targetCameraX;
-            transform.position = pos;
-            velocityX = 0f;
+            RectTransform child = contentRoot.GetChild(i) as RectTransform;
+            if (child == null)
+                continue;
+
+            child.anchoredPosition += new Vector2(amount, 0f);
         }
     }
 
-    void FitCameraToSingleZone()
+    void FitRoomHeightToScreen()
     {
-        if (zoneLayout == null)
+        CanvasScaler scaler = contentRoot.GetComponent<CanvasScaler>();
+        if (scaler == null)
             return;
 
-        float zoneWidth = zoneLayout.GetZoneWidth();
-        cam.orthographicSize = zoneWidth * 3f / 8f;
-
-        Bounds total = zoneLayout.GetTotalBounds();
-        Vector3 pos = transform.position;
-        pos.y = total.center.y;
-        transform.position = pos;
+        float viewHeight = Screen.height * cam.rect.height;
+        scaler.scaleFactor = viewHeight / roomRect.rect.height;
     }
 
     void ApplyAspectRatio()
     {
+        float targetAspect = 4f / 3f;
         float windowAspect = (float)Screen.width / Screen.height;
         Rect rect = new Rect(0f, 0f, 1f, 1f);
 
-        if (windowAspect > TargetAspect)
+        if (windowAspect > targetAspect)
         {
-            float width = TargetAspect / windowAspect;
-            rect.width = width;
-            rect.x = (1f - width) * 0.5f;
+            rect.width = targetAspect / windowAspect;
+            rect.x = (1f - rect.width) * 0.5f;
         }
         else
         {
-            float height = windowAspect / TargetAspect;
-            rect.height = height;
-            rect.y = (1f - height) * 0.5f;
+            rect.height = windowAspect / targetAspect;
+            rect.y = (1f - rect.height) * 0.5f;
         }
 
         cam.rect = rect;
