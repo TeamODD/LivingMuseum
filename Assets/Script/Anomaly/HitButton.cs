@@ -1,9 +1,10 @@
-﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
+﻿using System.Collections;
 using DG.Tweening;
-using System.Collections;
+using DG.Tweening.Core.Easing;
 using Kino;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class HitButton : MonoBehaviour, IPointerClickHandler
 {
@@ -17,6 +18,7 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     [SerializeField] private Transform targetCamera;
     [SerializeField] AnalogGlitch analogGlitch;
     [SerializeField] bool isApproach;
+    [SerializeField] GameManager gameManager;
 
     private Image targetImage;
     private RectTransform rectTransform;
@@ -30,6 +32,7 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     {
         targetImage = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
         if (targetImage != null)
         {
@@ -48,31 +51,35 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         PlayHitEffect();
-        hp--;
-        if (hp <= 0)
-        {
-            gameObject.SetActive(false);
-            StopCoroutine("Glitch");
-            analogGlitch.scanLineJitter = 0;
-            analogGlitch.colorDrift = 0;
-            analogGlitch.horizontalShake = 0;
-        }
     }
 
     public void PlayHitEffect()
-
     {
-        hitsound.Play();
-        colorTween?.Kill();
-        shakeTween?.Kill();
-
-        if (targetImage != null)
+        if(gameManager.mode==3)
         {
-            targetImage.color = hitColor;
-            colorTween = targetImage.DOColor(originalColor, duration);
-        }
+            hp--;           
+            hitsound.Play();
+            colorTween?.Kill();
+            shakeTween?.Kill();
 
-        shakeTween = rectTransform.DOShakeAnchorPos(duration, shakeStrength, vibrato);
+            if (targetImage != null)
+            {
+                targetImage.color = hitColor;
+                colorTween = targetImage.DOColor(originalColor, duration);
+            }
+
+            shakeTween = rectTransform.DOShakeAnchorPos(duration, shakeStrength, vibrato);
+
+            if (hp <= 0)
+            {
+                gameObject.SetActive(false);
+                StopCoroutine("Glitch");//화면 이상효과들 다 제거
+                analogGlitch.scanLineJitter = 0;
+                analogGlitch.colorDrift = 0;
+                analogGlitch.horizontalShake = 0;
+                gameManager.WalkMode();//순찰 모드로 진입
+            }
+        }   
     }
 
     public void ShakeCamera()
