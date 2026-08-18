@@ -16,6 +16,7 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     [SerializeField] AudioSource hitsound;
     [SerializeField] private Transform targetCamera;
     [SerializeField] AnalogGlitch analogGlitch;
+    [SerializeField] bool isApproach;
 
     private Image targetImage;
     private RectTransform rectTransform;
@@ -37,8 +38,7 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
     }
     private void OnEnable()
     {
-        hp = 40;
-        StartCoroutine("Glitch");
+        if(isApproach) StartCoroutine("Glitch");
     }
     private void OnDisable()
     {
@@ -52,6 +52,10 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
         if (hp <= 0)
         {
             gameObject.SetActive(false);
+            StopCoroutine("Glitch");
+            analogGlitch.scanLineJitter = 0;
+            analogGlitch.colorDrift = 0;
+            analogGlitch.horizontalShake = 0;
         }
     }
 

@@ -9,7 +9,7 @@ public class Reputation : MonoBehaviour
     [SerializeField] TextMeshProUGUI RepText;
     [SerializeField] int reputation;
     [SerializeField] Image anoImg;
-    [SerializeField] Sprite anospire;
+    [SerializeField] Sprite anosprite;
     public bool isMinusRep;//true면 평판이 까임
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,7 +28,7 @@ public class Reputation : MonoBehaviour
     IEnumerator Change()
     {
         yield return new WaitForSeconds(5f);
-        anoImg.sprite = anospire;
+        anoImg.sprite = anosprite;
         StartCoroutine("RepCo");
     }
     IEnumerator RepCo()
