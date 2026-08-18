@@ -353,7 +353,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 507383930}
-        m_TargetAssemblyTypeName: SpawnEffectOnMouse, Assembly-CSharp
+        m_TargetAssemblyTypeName: CleanEffect, Assembly-CSharp
         m_MethodName: SpawnObjectAtMouse
         m_Mode: 1
         m_Arguments:
@@ -411,9 +411,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 507383925}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d6f7960417e70b642afa9677a0c5597a, type: 3}
+  m_Script: {fileID: 11500000, guid: da7012e0a92d51d4fa3ecc13312a40de, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SpawnEffectOnMouse
+  m_EditorClassIdentifier: Assembly-CSharp::CleanEffect
   prefabToSpawn: {fileID: 233275932710535946, guid: 35533e7798ec64047998f451f8e1ffbc, type: 3}
   targetCamera: {fileID: 658924421}
   is2D: 1
@@ -568,9 +568,9 @@ GameObject:
   - component: {fileID: 658924421}
   - component: {fileID: 658924420}
   - component: {fileID: 658924423}
-  - component: {fileID: 658924424}
   - component: {fileID: 658924425}
   - component: {fileID: 658924426}
+  - component: {fileID: 658924427}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -696,23 +696,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!114 &658924424
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 658924419}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68d77d22f832fb94b8beba19f3e2922a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Reputation
-  RepText: {fileID: 576323797}
-  reputation: 0
-  anoImg: {fileID: 337732952}
-  anospire: {fileID: 1255365323283424078, guid: bd2716a707c16cf41b3b7353540b885f, type: 3}
-  isMinusRep: 0
 --- !u!114 &658924425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -775,6 +758,23 @@ MonoBehaviour:
   _horizontalShake: 0
   _colorDrift: 0
   _shader: {fileID: 4800000, guid: da33272284ea24f208f36998880990be, type: 3}
+--- !u!114 &658924427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 658924419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65592566cf8fd54409f3bfc78c656f93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Reputation
+  RepText: {fileID: 576323797}
+  reputation: 0
+  anoImg: {fileID: 337732952}
+  anosprite: {fileID: 1255365323283424078, guid: bd2716a707c16cf41b3b7353540b885f, type: 3}
+  isMinusRep: 0
 --- !u!1 &662950711
 GameObject:
   m_ObjectHideFlags: 0
@@ -939,12 +939,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1099686985}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c812c693abc795042812cbce2f7ded21, type: 3}
+  m_Script: {fileID: 11500000, guid: 059b4e88c2ea2594992d0b279c2367d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerDrag
   anoX: -311
   anoY: 24
-  reputation: {fileID: 658924424}
+  reputation: {fileID: 658924427}
 --- !u!1 &1163385020
 GameObject:
   m_ObjectHideFlags: 0
@@ -957,7 +957,7 @@ GameObject:
   - component: {fileID: 1163385025}
   - component: {fileID: 1163385024}
   - component: {fileID: 1163385023}
-  - component: {fileID: 1163385022}
+  - component: {fileID: 1163385026}
   m_Layer: 5
   m_Name: Button
   m_TagString: Untagged
@@ -985,21 +985,6 @@ RectTransform:
   m_AnchoredPosition: {x: 372, y: -81}
   m_SizeDelta: {x: 160, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1163385022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163385020}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58e81e335d7b64642b0c5317fa2a7877, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HideButton
-  hands: {fileID: 445703202}
-  hidePlayer: {fileID: 1099686985}
-  isHide: 0
 --- !u!114 &1163385023
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1044,7 +1029,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1163385022}
+      - m_Target: {fileID: 1163385026}
         m_TargetAssemblyTypeName: HideButton, Assembly-CSharp
         m_MethodName: clickHide
         m_Mode: 1
@@ -1094,6 +1079,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1163385020}
   m_CullTransparentMesh: 1
+--- !u!114 &1163385026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163385020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b90c2ca06ba9a9740aaa70b6ec64f068, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HideButton
+  hands: {fileID: 445703202}
+  hidePlayer: {fileID: 1099686985}
+  isHide: 0
 --- !u!1 &1283537304
 GameObject:
   m_ObjectHideFlags: 0
