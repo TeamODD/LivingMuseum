@@ -3,18 +3,16 @@ using UnityEngine;
 
 public class RandomSpriteSpawner : MonoBehaviour
 {
-    [Header("References")]
     public RoomZoneLayout zoneLayout;
+    public RectTransform contentRoot;
     public GameObject anomalyPrefab;
 
-    [Header("Convert")]
     public float interval = 8f;
     public int typeCount = 10;
     public int maxPerZone = 2;
     public bool excludeEndZones = true;
-    public Vector2 anomalySize = new Vector2(0.5f, 0.5f);
+    public Vector2 anomalySize = new Vector2(100f, 100f);
 
-    [Header("Record")]
     public List<SpawnRecord> spawnRecords = new List<SpawnRecord>();
 
     float timer;
@@ -22,7 +20,6 @@ public class RandomSpriteSpawner : MonoBehaviour
 
     void Start()
     {
-        remainingTypes.Clear();
         for (int i = 0; i < typeCount; i++)
             remainingTypes.Add("anomaly_" + i);
     }
@@ -46,57 +43,52 @@ public class RandomSpriteSpawner : MonoBehaviour
         if (arts.Length == 0)
             return;
 
-        List<int> openZones = GetOpenZones();
-        if (openZones.Count == 0)
+        List<int> zones = GetOpenZones();
+        if (zones.Count == 0)
             return;
 
-        int zoneIndex = openZones[Random.Range(0, openZones.Count)];
-        if (!zoneLayout.TryGetRandomPositionInZone(zoneIndex, anomalySize, out Vector2 pos))
-            return;
+        int zoneIndex = zones[Random.Range(0, zones.Count)];
+        Vector2 roomPos = zoneLayout.GetRandomPositionInZone(zoneIndex, anomalySize);
 
-        NormalArt art = arts[Random.Range(0, arts.Length)];
-        Destroy(art.gameObject);
+        Destroy(arts[Random.Range(0, arts.Length)].gameObject);
 
-        int typePick = Random.Range(0, remainingTypes.Count);
-        string typeId = remainingTypes[typePick];
-        remainingTypes.RemoveAt(typePick);
+        int pick = Random.Range(0, remainingTypes.Count);
+        string typeId = remainingTypes[pick];
+        remainingTypes.RemoveAt(pick);
 
-        GameObject obj = Instantiate(anomalyPrefab, transform);
-        obj.transform.position = new Vector3(pos.x, pos.y, 0f);
-        obj.transform.localScale = new Vector3(anomalySize.x, anomalySize.y, 1f);
+        RectTransform roomRect = zoneLayout.GetComponent<RectTransform>();
+        GameObject obj = Instantiate(anomalyPrefab, contentRoot);
 
-        SpriteRenderer sr = obj.GetComponent<SpriteRenderer>();
-        if (sr != null)
-            sr.sortingOrder = 2;
+        RectTransform rect = obj.GetComponent<RectTransform>();
+        rect.sizeDelta = anomalySize;
+        rect.anchoredPosition = roomPos + roomRect.anchoredPosition;
 
-        spawnRecords.Add(new SpawnRecord(typeId, zoneIndex, pos, anomalySize));
-        Debug.Log("[Convert] " + typeId + " zone=" + zoneIndex + " pos=(" + pos.x.ToString("F2") + ", " + pos.y.ToString("F2") + ")");
+        spawnRecords.Add(new SpawnRecord(typeId, zoneIndex, roomPos, anomalySize));
     }
 
     List<int> GetOpenZones()
     {
-        List<int> zones = zoneLayout.GetSpawnableZoneIndices(excludeEndZones);
+        List<int> zones = zoneLayout.GetSpawnableZones(excludeEndZones);
         List<int> open = new List<int>();
 
         for (int i = 0; i < zones.Count; i++)
         {
-            int zone = zones[i];
             int count = 0;
 
             for (int r = 0; r < spawnRecords.Count; r++)
             {
-                if (spawnRecords[r].zoneIndex == zone)
+                if (spawnRecords[r].zoneIndex == zones[i])
                     count++;
             }
 
             if (count < maxPerZone)
-                open.Add(zone);
+                open.Add(zones[i]);
         }
 
         return open;
     }
 
-    public IReadOnlyList<SpawnRecord> GetRecords()
+    public List<SpawnRecord> GetRecords()
     {
         return spawnRecords;
     }
