@@ -764,6 +764,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   mode: 0
   fightButton: {fileID: 1841320175}
+  now: 0
+  anoArr: 00000000000000000000000000000000
+  fightAno: 00000000000000000000000000000000
+  FButton: {fileID: 1841320170}
 --- !u!1 &841228526
 GameObject:
   m_ObjectHideFlags: 0
