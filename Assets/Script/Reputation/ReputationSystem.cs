@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum EndingType
 {
@@ -23,12 +24,19 @@ public class ReputationSystem : MonoBehaviour
     public float gainPerSecond = 2f;
     public float gainDelay = 3f;
 
+    public float gameDuration = 300f;
+    public string gameOverSceneName = "GameOver";
+    public string badEndingSceneName = "BadEnding";
+    public string goodEndingSceneName = "GoodEnding";
+
     public event Action<int> OnReputationChanged;
     public event Action OnGameOver;
 
     float current;
     float gainTimer;
+    float remainingTime;
     bool isGameOver;
+    bool endingLoaded;
 
     public int Current
     {
@@ -40,17 +48,35 @@ public class ReputationSystem : MonoBehaviour
         get { return isGameOver; }
     }
 
+    public float RemainingTime
+    {
+        get { return Mathf.Max(remainingTime, 0f); }
+    }
+
     void Awake()
     {
         Instance = this;
         current = Mathf.Clamp(startReputation, 0, maxReputation);
+        remainingTime = gameDuration;
     }
 
     void Update()
     {
+        if (isGameOver || endingLoaded)
+            return;
+
+        UpdateReputation();
+
         if (isGameOver)
             return;
 
+        remainingTime -= Time.deltaTime;
+        if (remainingTime <= 0f)
+            LoadEnding(GetEnding());
+    }
+
+    void UpdateReputation()
+    {
         // only work while at least one audience group is watching
         if (audienceSystem == null || !audienceSystem.IsWatching)
             return;
@@ -104,10 +130,27 @@ public class ReputationSystem : MonoBehaviour
     void TriggerGameOver()
     {
         isGameOver = true;
-        Debug.Log("Game over: reputation reached 0");
+        Debug.Log("Game over");
 
         if (OnGameOver != null)
             OnGameOver();
+
+        LoadEnding(EndingType.GameOver);
+    }
+
+    void LoadEnding(EndingType ending)
+    {
+        string sceneName = gameOverSceneName;
+
+        if (ending == EndingType.Bad)
+            sceneName = badEndingSceneName;
+        else if (ending == EndingType.Good)
+            sceneName = goodEndingSceneName;
+
+
+
+        endingLoaded = true;
+        SceneManager.LoadScene(sceneName);
     }
 
     int CountExposedAnomalies()
