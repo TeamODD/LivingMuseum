@@ -25,10 +25,7 @@ public class AudienceGroup : MonoBehaviour
 
         headZone = system.occupiedZoneCount - 1;
 
-        RectTransform roomRect = zoneLayout.GetComponent<RectTransform>();
-        float x = zoneLayout.GetZoneCenterX(headZone) + roomRect.anchoredPosition.x;
-        float y = system.personY + roomRect.anchoredPosition.y;
-        rect.anchoredPosition = new Vector2(x, y);
+        rect.anchoredPosition = new Vector2(zoneLayout.GetZoneCenterX(headZone), system.personY);
 
         CreatePeople();
     }
@@ -81,6 +78,7 @@ public class AudienceGroup : MonoBehaviour
     void CreatePerson(Vector2 localPosition)
     {
         GameObject obj = new GameObject("Audience");
+        obj.layer = gameObject.layer;
         obj.transform.SetParent(transform, false);
 
         RectTransform personRect = obj.AddComponent<RectTransform>();

@@ -1585,7 +1585,7 @@ MonoBehaviour:
   losePerAnomalyPerSecond: 5
   gainPerSecond: 2
   gainDelay: 3
-  gameDuration: 300
+  gameDuration: 200
   gameOverSceneName: GameOver
   badEndingSceneName: BadEnding
   goodEndingSceneName: GoodEnding
