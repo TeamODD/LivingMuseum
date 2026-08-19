@@ -5,8 +5,8 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] public int mode;//0이면 일반 순찰모드, 1이면 가리기, 2면 청소, 3이면 야차모드
     [SerializeField] FightButton fightButton;
-    [SerializeField] int now = 0;//0~7까지 한 방, 8~15까지 한 방. 현재 위치를 표시
-    [SerializeField] int[] anoArr = new int[18];//이상현상이 없으면 0, 사물 이상현상이면 1, 생물 이상현상이면 2
+    [SerializeField] public int now = 0;//0~10까지 한 방, 11~21까지 한 방. 현재 위치를 표시
+    [SerializeField] int[] anoArr = new int[22];//이상현상이 없으면 0, 사물 이상현상이면 1, 생물 이상현상이면 2, 관객 이상현상이면 3.
     [SerializeField] GameObject[] AnomalyObjArr = new GameObject[12];
     [SerializeField] int[] anoIndex = new int[18];//0~5는 생명체 6~9는 무생물 10,11은 관객 12~17는 0~5에 대응하는 생물 출현 방 
     //실제 인덱스에는 0~8까지가 방1 9~17까지가 방2
@@ -111,6 +111,33 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+        ReorderAnoArr();//ANOARR을 재정렬
+
+    }
+
+    void ReorderAnoArr()
+    {
+        // 원본 anoArr(0~17 값) 복사
+        int[] temp = (int[])anoArr.Clone();
+
+        // anoArr 전체 0으로 초기화 (문 위치 0, 10, 11, 21 자동 0 처리)
+        System.Array.Clear(anoArr, 0, anoArr.Length);
+
+        // 1층 이상현상: 0~8번 -> 1~9번으로 1칸씩 미룸
+        for (int i = 0; i < 9; i++)
+        {
+            anoArr[i + 1] = temp[i];
+        }
+
+        // 2층 이상현상: 9~17번 -> 12~20번으로 3칸씩 미룸 (0, 10, 11번 문 오프셋 고려)
+        for (int i = 9; i < 18; i++)
+        {
+            anoArr[i + 3] = temp[i];
+        }
+
+        anoArr[4] = 3;
+        anoArr[15] = 3;
+        //관객 이상현상은 3으로 설정
     }
 
     public void WalkMode()
@@ -127,6 +154,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
+        Debug.Log("현재"+now);
+        Debug.Log(anoArr[now]);
         if (anoArr[now]==2)//현재 생물 이상현상이 있으면(나중에 관객 여부 if문까지 추가해야함)
         {
             FButton.SetActive(true);
@@ -136,11 +165,11 @@ public class GameManager : MonoBehaviour
             FButton.SetActive(false); 
         }
 
-        if(Keyboard.current.aKey.wasPressedThisFrame && now!=0&&now!=8)
+        if(Keyboard.current.aKey.wasPressedThisFrame && now!=0&&now!=11)
         {
             now--;
         }
-        if (Keyboard.current.dKey.wasPressedThisFrame && now!=7&&now!=15)
+        if (Keyboard.current.dKey.wasPressedThisFrame && now!=10&&now!=21)
         {
             now++;
         }

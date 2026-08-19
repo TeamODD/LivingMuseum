@@ -14,6 +14,8 @@ public class RoomCameraController : MonoBehaviour
     public float yShiftAmount = 500f;  // 이동할 Y 거리 (기본 500)
     private float currentYOffset = 0f; // 현재 반영된 Y 오프셋
 
+    [SerializeField] GameManager gameManager;
+
     Camera cam;
     RectTransform roomRect;
     int currentZone;
@@ -86,6 +88,7 @@ public class RoomCameraController : MonoBehaviour
     public void MoveUp()
     {
         ApplyYShiftInstant(-yShiftAmount);
+        gameManager.now += 11;
     }
 
     /// <summary>
@@ -94,6 +97,7 @@ public class RoomCameraController : MonoBehaviour
     public void MoveDown()
     {
         ApplyYShiftInstant(0f);
+        gameManager.now -= 11;
     }
 
     // Y축 좌표를 즉시 변경하는 내부 함수
