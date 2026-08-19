@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: bc51223255dfbb44b956306775324a42
+guid: 50ccd8e985a88294d8be5f32d0ba2aab
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8042076268709131817
-    second: BADENDING_0
+      213: -947511265063585297
+    second: manual_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: BADENDING_0
+      name: manual_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 39
         y: 0
-        width: 360
-        height: 270
+        width: 321
+        height: 241
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7d94efa0e3ec46090800000000000000
-      internalID: -8042076268709131817
+      spriteID: fe934394683c9d2f0800000000000000
+      internalID: -947511265063585297
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      BADENDING_0: -8042076268709131817
+      manual_0: -947511265063585297
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
