@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.InputSystem;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float floorOffsetY = 6.55f; 
 
     [SerializeField] GameObject FButton;//전투준비 버튼 온오프용
+    [SerializeField] GameObject Warning;
+
+    [SerializeField] float timer = 8f;//8초마다 이상현상 출몰
 
     void SetupAnomalyIndices()
     {
@@ -148,8 +153,8 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         SetupAnomalyIndices();
-        Debug.Log("최종 배치 결과: " + string.Join(", ", anoIndex));
         SpawnAno();
+        StartCoroutine("ChangeAno");
     }
 
     private void Update()
@@ -175,4 +180,12 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    IEnumerator ChangeAno()//8초마다 호출되며 이상현상을 발생시킴.
+    {
+        yield return new WaitForSeconds(timer);        
+        Warning.SetActive(true);//화면에 경고표시
+        yield return new WaitForSeconds(0.8f);
+        Warning.SetActive(false);        
+        StartCoroutine("ChangeAno");
+    }
 }
