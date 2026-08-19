@@ -20,7 +20,7 @@ public class Punch : MonoBehaviour//이 스크립트는 때릴 적 버튼에 넣
     }
 
     // 버튼 클릭 시 호출할 함수
-    public void OnPunchButtonClick()
+    public void OnMouseDown()
     {
         if(gameManager.mode==3)
         {

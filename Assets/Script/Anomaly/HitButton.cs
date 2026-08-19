@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class HitButton : MonoBehaviour, IPointerClickHandler
+public class HitButton : MonoBehaviour
 {
     [Header("피격 연출 설정")]
     [SerializeField] private Color hitColor = Color.red; // 피격 시 변경할 색상
@@ -48,16 +48,11 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
         analogGlitch.horizontalShake = 0;
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void OnMouseDown()//이 이상현상을 클릭 시 실행되는 함수
     {
-        PlayHitEffect();
-    }
-
-    public void PlayHitEffect()
-    {
-        if(gameManager.mode==3)
+        if (gameManager.mode == 3)
         {
-            hp--;           
+            hp--;
             hitsound.Play();
             colorTween?.Kill();
             shakeTween?.Kill();
@@ -79,7 +74,7 @@ public class HitButton : MonoBehaviour, IPointerClickHandler
                 analogGlitch.horizontalShake = 0;
                 gameManager.WalkMode();//순찰 모드로 진입
             }
-        }   
+        }
     }
 
     public void ShakeCamera()
