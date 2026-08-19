@@ -10,17 +10,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] public int now = 0;//0~10까지 한 방, 11~21까지 한 방. 현재 위치를 표시
     [SerializeField] int[] anoArr = new int[22];//이상현상이 없으면 0, 사물 이상현상이면 1, 생물 이상현상이면 2, 관객 이상현상이면 3.
     [SerializeField] GameObject[] AnomalyObjArr = new GameObject[12];
-    [SerializeField] int[] anoIndex = new int[18];//0~5는 생명체 6~9는 무생물 10,11은 관객 12~17는 0~5에 대응하는 생물 출현 방 
+    [SerializeField] int[] anoIndex = new int[22];//0~5는 생명체 6~9는 무생물 10,11은 관객 12~17는 0~5에 대응하는 생물 출현 방 
     //실제 인덱스에는 0~8까지가 방1 9~17까지가 방2
     //생물은 야차, 무생물은 어루만지기, 관객이 있으면 야차는 불가해서 생물 가리기
+    [SerializeField] bool[] anoEnabled = new bool[22];//현재 그 구역에서 이상현상이 발생중인지 판정하는 배열. true면 있음
+    [SerializeField] bool[] canYacha = new bool[22];//그 구역에서 야차를 뜰 수 있는지 판정하는 배열.
+    [SerializeField] bool[] isCrowd = new bool[22];//그 구역에 관객이 있는지 판정하는 배열.
 
     private Vector3[] basePositions;
     [Header("위치 간격 설정")]
     [SerializeField] private float roomOffsetX = 4.725f;  
     [SerializeField] private float floorOffsetY = 6.55f; 
 
-    [SerializeField] GameObject FButton;//전투준비 버튼 온오프용
+    [SerializeField] GameObject FButton;//야차 버튼 온오프용
     [SerializeField] GameObject Warning;
+    [SerializeField] GameObject CButton;//청소버튼
 
     [SerializeField] float timer = 8f;//8초마다 이상현상 출몰
 
@@ -84,10 +88,10 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-
         System.Array.Clear(anoArr, 0, anoArr.Length);
 
-        for (int slot = 0; slot < anoIndex.Length; slot++)
+        // [수정] anoIndex.Length(22) 대신 실제 셔플 구역 수인 18로 변경
+        for (int slot = 0; slot < 18; slot++)
         {
             int anoValue = anoIndex[slot];
 
@@ -101,7 +105,6 @@ public class GameManager : MonoBehaviour
                     int roomX = slot % 9;        // 0 ~ 8 (구역 번호)
                     int floorIndex = slot / 9;   // 0 (1층) 또는 1 (2층)
 
-                    // 변수로 뺀 간격 수치 적용
                     Vector3 offset = new Vector3(roomX * roomOffsetX, floorIndex * floorOffsetY, 0f);
                     targetObj.transform.position = basePositions[objIndex] + offset;
                 }
@@ -116,38 +119,68 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
-        ReorderAnoArr();//ANOARR을 재정렬
 
+        ReorderAnoArr(); // ANOARR 및 anoIndex 재정렬
     }
 
     void ReorderAnoArr()
     {
-        // 원본 anoArr(0~17 값) 복사
-        int[] temp = (int[])anoArr.Clone();
+        int[] tempArr = (int[])anoArr.Clone();
+        int[] tempIndex = (int[])anoIndex.Clone();
 
-        // anoArr 전체 0으로 초기화 (문 위치 0, 10, 11, 21 자동 0 처리)
+        // 두 배열 모두 0으로 초기화 (0, 10, 11, 21번 문 위치는 0이 됨)
         System.Array.Clear(anoArr, 0, anoArr.Length);
+        System.Array.Clear(anoIndex, 0, anoIndex.Length);
 
-        // 1층 이상현상: 0~8번 -> 1~9번으로 1칸씩 미룸
+        // 1층 (0~8번 -> 1~9번으로 1칸씩 이동)
         for (int i = 0; i < 9; i++)
         {
-            anoArr[i + 1] = temp[i];
+            anoArr[i + 1] = tempArr[i];
+            anoIndex[i + 1] = tempIndex[i];
         }
 
-        // 2층 이상현상: 9~17번 -> 12~20번으로 3칸씩 미룸 (0, 10, 11번 문 오프셋 고려)
+        // 2층 (9~17번 -> 12~20번으로 3칸씩 이동)
         for (int i = 9; i < 18; i++)
         {
-            anoArr[i + 3] = temp[i];
+            anoArr[i + 3] = tempArr[i];
+            anoIndex[i + 3] = tempIndex[i];
         }
 
         anoArr[4] = 3;
         anoArr[15] = 3;
         //관객 이상현상은 3으로 설정
+
+        anoIndex[0] = 99;
+        anoIndex[10] = 99;
+        anoIndex[11] = 99;
+        anoIndex[21] = 99;
+        //문 칸에 해당하는 이상객체는 없으므로 99로
+
+        anoIndex[3] = 107;
+        anoIndex[6] = 101;
+        anoIndex[9] = 105;
+        anoIndex[14] = 118;
+        anoIndex[17] = 112;
+        anoIndex[20] = 116;
+        //괴물 스폰되는 방은 그 괴물 인덱스 +100
     }
 
-    public void WalkMode()
+    public void YachaWin()
     {
+        canYacha[now] = false;
+        anoEnabled[now] = false;
         fightButton.WalkMode();
+        AnomalyObjArr[anoIndex[now]].transform.GetChild(0).gameObject.SetActive(false);
+        mode = 0;
+    }
+
+    public void YachaLose()//이러면 평판까임
+    {
+        canYacha[now] = false;
+        anoEnabled[now] = false;
+        fightButton.WalkMode();
+        AnomalyObjArr[anoIndex[now]].transform.GetChild(0).gameObject.SetActive(false);
+        mode = 0;
     }
 
     private void Awake()
@@ -159,9 +192,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("현재"+now);
-        Debug.Log(anoArr[now]);
-        if (anoArr[now]==2)//현재 생물 이상현상이 있으면(나중에 관객 여부 if문까지 추가해야함)
+        if (canYacha[now])//야차뜰수있으면 야차버튼 활성화
         {
             FButton.SetActive(true);
         }
@@ -170,7 +201,15 @@ public class GameManager : MonoBehaviour
             FButton.SetActive(false); 
         }
 
-        if(Keyboard.current.aKey.wasPressedThisFrame && now!=0&&now!=11)
+        if (anoEnabled[now]&& anoArr[now]==1)
+        {
+            CButton.SetActive(true);
+        }
+        else
+        {
+            CButton.SetActive(false); 
+        }
+        if (Keyboard.current.aKey.wasPressedThisFrame && now != 0 && now != 11)
         {
             now--;
         }
@@ -180,12 +219,58 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void StartFight()//야차 시작하면 호출. 이때부터 상대가 다가오거나 이동함
+    {
+        int objIndex = anoIndex[now] % 100;
+        AnomalyObjArr[objIndex].transform.GetChild(0).GetComponent<MoveAno>().Move();
+        mode = 3;
+    }
+
     IEnumerator ChangeAno()//8초마다 호출되며 이상현상을 발생시킴.
     {
-        yield return new WaitForSeconds(timer);        
+        yield return new WaitForSeconds(timer);
         Warning.SetActive(true);//화면에 경고표시
+
+        // [추가] 1. 스폰 가능한 방이 있는지 먼저 확인
+        bool isRoomAvailable = false;
+        for (int i = 1; i <= 20; i++)
+        {
+            if (anoArr[i] != 99 && anoIndex[i] != 99 && !anoEnabled[i] && anoIndex[i] < 100)
+            {
+                isRoomAvailable = true;
+                break;
+            }
+        }
+
+        // [추가] 2. 빈 방이 없으면 무한 루프에 들어가지 않고 다음 사이클로 넘김
+        if (!isRoomAvailable)
+        {
+            Warning.SetActive(false);
+            StartCoroutine("ChangeAno");
+            yield break;
+        }
+
+        int rand;
+        while (true)
+        {
+            rand = Random.Range(1, 21);
+            if (anoArr[rand] != 99 && anoIndex[rand] != 99 && !anoEnabled[rand] && anoIndex[rand] < 100)
+            {
+                break;
+            }
+        }
+
+        anoEnabled[rand] = true;//괴물이 그 방에 있음
+        int objIndex = anoIndex[rand];
+        AnomalyObjArr[objIndex].transform.GetChild(0).gameObject.SetActive(true);//그 이상현상 나오게
+
+        if (anoArr[rand] == 2)
+        {
+            canYacha[rand] = true;//그 방에서 야차뜰수 있으면 true
+        }
+
         yield return new WaitForSeconds(0.8f);
-        Warning.SetActive(false);        
+        Warning.SetActive(false);
         StartCoroutine("ChangeAno");
     }
 }
