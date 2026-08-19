@@ -4,11 +4,13 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Camera))]
 public class RoomCameraController : MonoBehaviour
-{
+{    
+    [SerializeField] AudioSource moveroom;
     public RoomZoneLayout zoneLayout;
     public RectTransform contentRoot;
     public int startZoneIndex = 0;
     public float moveSpeed = 8f;
+
 
     [Header("Y축 시점 이동 설정")]
     public float yShiftAmount = 500f;  // 이동할 Y 거리 (기본 500)
@@ -87,6 +89,7 @@ public class RoomCameraController : MonoBehaviour
     /// </summary>
     public void MoveUp()
     {
+        moveroom.Play();
         ApplyYShiftInstant(-yShiftAmount);
         gameManager.now += 11;
     }
@@ -96,6 +99,7 @@ public class RoomCameraController : MonoBehaviour
     /// </summary>
     public void MoveDown()
     {
+        moveroom.Play();
         ApplyYShiftInstant(0f);
         gameManager.now -= 11;
     }

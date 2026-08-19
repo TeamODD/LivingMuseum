@@ -28,6 +28,15 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] float timer = 8f;//8초마다 이상현상 출몰
 
+    [SerializeField] AudioSource bgm1;//기본브금
+    [SerializeField] AudioSource bgm2;//야차브금
+    [SerializeField] AudioSource yachawin;
+    [SerializeField] AudioSource yachalose;    
+    [SerializeField] AudioSource yachastart;    
+    [SerializeField] AudioSource spawnsound;
+    [SerializeField] AudioSource clean;
+    [SerializeField] AudioSource footstep;
+
     void SetupAnomalyIndices()
     {
         // 1. 고정 위치 지정 (16, 17)
@@ -167,6 +176,12 @@ public class GameManager : MonoBehaviour
 
     public void YachaWin()
     {
+        if (canYacha[now])
+        {
+            yachawin.Play();
+            bgm1.Play();
+            bgm2.Stop();
+        }      
         canYacha[now] = false;
         anoEnabled[now] = false;
         fightButton.WalkMode();
@@ -176,6 +191,9 @@ public class GameManager : MonoBehaviour
 
     public void YachaLose()//이러면 평판까임
     {
+        bgm1.Play();
+        bgm2.Stop();
+        yachalose.Play();
         canYacha[now] = false;
         anoEnabled[now] = false;
         fightButton.WalkMode();
@@ -211,18 +229,23 @@ public class GameManager : MonoBehaviour
         }
         if (Keyboard.current.aKey.wasPressedThisFrame && now != 0 && now != 11)
         {
+            footstep.Play();
             now--;
         }
         if (Keyboard.current.dKey.wasPressedThisFrame && now!=10&&now!=21)
         {
+            footstep.Play();
             now++;
         }
     }
 
     public void StartFight()//야차 시작하면 호출. 이때부터 상대가 다가오거나 이동함
     {
+        bgm1.Stop();
+        bgm2.Play();
         int objIndex = anoIndex[now] % 100;
         AnomalyObjArr[objIndex].transform.GetChild(0).GetComponent<MoveAno>().Move();
+        AnomalyObjArr[objIndex].transform.GetChild(0).GetComponent<HitButton>().GlitchStart();
         mode = 3;
     }
 
@@ -230,7 +253,7 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(timer);
         Warning.SetActive(true);//화면에 경고표시
-
+        spawnsound.Play();
         // [추가] 1. 스폰 가능한 방이 있는지 먼저 확인
         bool isRoomAvailable = false;
         for (int i = 1; i <= 20; i++)
