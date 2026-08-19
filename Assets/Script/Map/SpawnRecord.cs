@@ -7,6 +7,7 @@ public class SpawnRecord
     public int zoneIndex;
     public Vector2 position;
     public Vector2 size;
+    public bool isHidden;
 
     public SpawnRecord(string id, int zoneIndex, Vector2 position, Vector2 size)
     {
