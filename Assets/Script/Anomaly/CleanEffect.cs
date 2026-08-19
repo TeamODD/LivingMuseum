@@ -40,7 +40,6 @@ public class CleanEffect : MonoBehaviour
         if (isCleaning) return;            // 이미 청소 중이면 중복 클릭 방지
 
         isCleaning = true;
-
         // 1. 마우스 위치 가져오기 (Input System)
         Vector3 mouseScreenPos = Vector3.zero;
         if (Mouse.current != null)

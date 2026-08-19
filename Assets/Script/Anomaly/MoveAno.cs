@@ -14,6 +14,8 @@ public class MoveAno : MonoBehaviour
     [SerializeField] float scaleMultiplier = 2f; // 원래 크기 대비 몇 배로 커질지 (기본 2배)
     [SerializeField] float approachDuration = 10f; // 커지는 시간
 
+    [SerializeField] AudioSource JumpSound;
+
     private Vector3 beforePosition;
     private Vector3 beforScale;
 
@@ -64,9 +66,19 @@ public class MoveAno : MonoBehaviour
     }
     IEnumerator JumpScare()
     {
-        yield return new WaitForSeconds(7);//7초안에 못잡으면 패배
-        gameObject.GetComponent<Animator>().SetTrigger("Jump");
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(5);//5초안에 못잡으면 패배
+        gameObject.GetComponent<Animator>().SetTrigger("Jump");      
+        if (gameObject.tag == "Jump1")
+        {
+            yield return new WaitForSeconds(1.8f);
+            JumpSound.Play();
+        }
+        else if(gameObject.tag=="Jump2")
+        {
+            yield return new WaitForSeconds(2.5f);
+            JumpSound.Play();
+        }
+        yield return new WaitForSeconds(1f);
         GameObject.Find("GameManager").GetComponent<GameManager>().YachaLose();
     }
     IEnumerator Move1() // 가로로 움직이는 애
