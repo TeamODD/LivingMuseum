@@ -14,7 +14,11 @@ public class ReputationSystem : MonoBehaviour
 {
     public static ReputationSystem Instance;
 
-    public AudienceSystem audienceSystem;
+    [Header("관객")]
+    public AudienceSystem[] audienceSystems;
+
+    [Header("이상현상")]
+    public GameManager gameManager;
     public RandomSpriteSpawner spawner;
 
     public int maxReputation = 100;
@@ -24,7 +28,7 @@ public class ReputationSystem : MonoBehaviour
     public float gainPerSecond = 2f;
     public float gainDelay = 3f;
 
-    public float gameDuration = 300f;
+    public float gameDuration = 200f;
     public string gameOverSceneName = "GameOver";
     public string badEndingSceneName = "BadEnding";
     public string goodEndingSceneName = "GoodEnding";
@@ -60,6 +64,12 @@ public class ReputationSystem : MonoBehaviour
         remainingTime = gameDuration;
     }
 
+    void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
+
     void Update()
     {
         if (isGameOver || endingLoaded)
@@ -78,7 +88,7 @@ public class ReputationSystem : MonoBehaviour
     void UpdateReputation()
     {
         // only work while at least one audience group is watching
-        if (audienceSystem == null || !audienceSystem.IsWatching)
+        if (!IsAnyAudienceWatching())
             return;
 
         int exposed = CountExposedAnomalies();
@@ -98,7 +108,7 @@ public class ReputationSystem : MonoBehaviour
     // called by other systems
     public void Add(int amount)
     {
-        if (isGameOver)
+        if (isGameOver || endingLoaded)
             return;
 
         ChangeBy(amount);
@@ -150,10 +160,60 @@ public class ReputationSystem : MonoBehaviour
 
 
         endingLoaded = true;
+        Time.timeScale = 1f;
         SceneManager.LoadScene(sceneName);
     }
 
+    bool IsAnyAudienceWatching()
+    {
+        if (audienceSystems == null)
+            return false;
+
+        for (int i = 0; i < audienceSystems.Length; i++)
+        {
+            if (audienceSystems[i] != null && audienceSystems[i].IsWatching)
+                return true;
+        }
+
+        return false;
+    }
+
+    bool IsZoneWatched(int globalZone)
+    {
+        if (audienceSystems == null)
+            return false;
+
+        for (int i = 0; i < audienceSystems.Length; i++)
+        {
+            if (audienceSystems[i] != null && audienceSystems[i].IsGlobalZoneWatched(globalZone))
+                return true;
+        }
+
+        return false;
+    }
+
     int CountExposedAnomalies()
+    {
+        return CountFromGameManager() + CountFromSpawner();
+    }
+
+    int CountFromGameManager()
+    {
+        if (gameManager == null)
+            return 0;
+
+        int count = 0;
+
+        for (int zone = 0; zone < gameManager.ZoneCount; zone++)
+        {
+            if (gameManager.IsAnomalyExposed(zone) && IsZoneWatched(zone))
+                count++;
+        }
+
+        return count;
+    }
+
+    int CountFromSpawner()
     {
         if (spawner == null)
             return 0;
@@ -166,7 +226,7 @@ public class ReputationSystem : MonoBehaviour
             if (records[i].isHidden)
                 continue;
 
-            if (audienceSystem.IsZoneWatched(records[i].zoneIndex))
+            if (IsZoneWatched(records[i].zoneIndex))
                 count++;
         }
 

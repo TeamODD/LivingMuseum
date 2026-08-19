@@ -986,7 +986,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 305626b8bdba43c4fb5f0950022dbe01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EndingSceneController
-  gameSceneName: RoomView
+  gameSceneName: MainGame
 --- !u!4 &2116239819
 Transform:
   m_ObjectHideFlags: 0

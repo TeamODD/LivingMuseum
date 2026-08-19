@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 
 public class StartSceneController : MonoBehaviour
 {
-    public string gameSceneName = "RoomView";
+    public string gameSceneName = "MainGame";
 
     public void StartGame()
     {

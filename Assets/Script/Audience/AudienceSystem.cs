@@ -4,8 +4,11 @@ using UnityEngine;
 public class AudienceSystem : MonoBehaviour
 {
     public RoomZoneLayout zoneLayout;
-    public RectTransform contentRoot;
     public RadioWarning radio;
+
+    [Header("층 설정")]
+    public int floorIndex = 0;
+    public GameManager gameManager;
 
     public int occupiedZoneCount = 3;
     public float moveDuration = 5f;
@@ -13,6 +16,7 @@ public class AudienceSystem : MonoBehaviour
     public float firstEntryDelay = 15f;
     public float entryInterval = 65f;
     public float[] warningTimes = { 40f, 10f };
+    public string warningLabel = "";
 
     public int minPeoplePerZone = 2;
     public int maxPeoplePerZone = 3;
@@ -39,6 +43,7 @@ public class AudienceSystem : MonoBehaviour
     void Update()
     {
         RemoveFinishedGroups();
+        PushCrowdFlags();
 
         if (groups.Count > 0)
             return;
@@ -56,6 +61,7 @@ public class AudienceSystem : MonoBehaviour
         waitingForEntry = false;
     }
 
+    // 이 층 안에서의 구역 번호(0 ~ zoneCount-1)로 판정
     public bool IsZoneWatched(int zoneIndex)
     {
         for (int i = 0; i < groups.Count; i++)
@@ -65,6 +71,46 @@ public class AudienceSystem : MonoBehaviour
         }
 
         return false;
+    }
+
+    // GameManager.now와 같은 전역 구역 번호(0~21)로 판정
+    public bool IsGlobalZoneWatched(int globalZone)
+    {
+        int localZone = globalZone - FirstGlobalZone;
+
+        if (localZone < 0 || localZone >= zoneLayout.zoneCount)
+            return false;
+
+        return IsZoneWatched(localZone);
+    }
+
+    public int FirstGlobalZone
+    {
+        get { return floorIndex * GameManager.ZonesPerFloor; }
+    }
+
+    public int ToGlobalZone(int localZone)
+    {
+        return FirstGlobalZone + localZone;
+    }
+
+    // 관객이 서 있는 구역을 GameManager에 반영. 관객 앞에서는 야차를 못 뜬다
+    void PushCrowdFlags()
+    {
+        if (gameManager == null || zoneLayout == null)
+            return;
+
+        for (int i = 0; i < zoneLayout.zoneCount; i++)
+            gameManager.SetCrowd(ToGlobalZone(i), IsZoneWatched(i));
+    }
+
+    void OnDisable()
+    {
+        if (gameManager == null || zoneLayout == null)
+            return;
+
+        for (int i = 0; i < zoneLayout.zoneCount; i++)
+            gameManager.SetCrowd(ToGlobalZone(i), false);
     }
 
     public Sprite GetRandomCrowdSprite()
@@ -82,7 +128,8 @@ public class AudienceSystem : MonoBehaviour
             if (warningShown[i] || entryTimer > warningTimes[i])
                 continue;
 
-            radio.Show("Audience entering in " + Mathf.RoundToInt(warningTimes[i]) + " seconds");
+            string prefix = string.IsNullOrEmpty(warningLabel) ? "" : "[" + warningLabel + "] ";
+            radio.Show(prefix + "Audience entering in " + Mathf.RoundToInt(warningTimes[i]) + " seconds");
             warningShown[i] = true;
         }
     }
@@ -103,7 +150,8 @@ public class AudienceSystem : MonoBehaviour
     void SpawnGroup()
     {
         GameObject obj = new GameObject("AudienceGroup");
-        obj.transform.SetParent(contentRoot, false);
+        obj.layer = zoneLayout.gameObject.layer;
+        obj.transform.SetParent(zoneLayout.transform, false);
         obj.AddComponent<RectTransform>();
 
         AudienceGroup group = obj.AddComponent<AudienceGroup>();

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,9 @@ public class ReputationUI : MonoBehaviour
     public ReputationSystem reputationSystem;
     public Image gaugeFill;
     public Image faceImage;
+
+    [Header("남은 시간 표시 (선택)")]
+    public TextMeshProUGUI timeText;
 
     public Sprite happyFace;
     public Sprite badFace;
@@ -32,6 +36,18 @@ public class ReputationUI : MonoBehaviour
     {
         if (reputationSystem != null)
             Refresh(reputationSystem.Current);
+    }
+
+    void Update()
+    {
+        if (timeText == null || reputationSystem == null)
+            return;
+
+        float remaining = reputationSystem.RemainingTime;
+        int minutes = (int)(remaining / 60f);
+        int seconds = (int)(remaining % 60f);
+
+        timeText.text = minutes.ToString("00") + ":" + seconds.ToString("00");
     }
 
     void Refresh(int value)

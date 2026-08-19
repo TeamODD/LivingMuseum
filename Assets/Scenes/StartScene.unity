@@ -854,7 +854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d60133ad34aa4a74a8ab08ded1ea1541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StartSceneController
-  gameSceneName: RoomView
+  gameSceneName: MainGame
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

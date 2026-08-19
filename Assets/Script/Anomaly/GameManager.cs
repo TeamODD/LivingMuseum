@@ -16,6 +16,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool[] anoEnabled = new bool[22];//현재 그 구역에서 이상현상이 발생중인지 판정하는 배열. true면 있음
     [SerializeField] bool[] canYacha = new bool[22];//그 구역에서 야차를 뜰 수 있는지 판정하는 배열.
     [SerializeField] bool[] isCrowd = new bool[22];//그 구역에 관객이 있는지 판정하는 배열.
+    [SerializeField] bool[] anoHidden = new bool[22];//그 구역의 이상현상을 천으로 가려놨는지 판정하는 배열.
+
+    public const int ZonesPerFloor = 11;//0~10이 1층, 11~21이 2층
+
+    [Header("평판 연동")]
+    [SerializeField] int yachaLosePenalty = 15;//야차에서 지면 깎이는 평판
+    [SerializeField] int yachaWinBonus = 0;//야차에서 이기면 오르는 평판
 
     private Vector3[] basePositions;
     [Header("위치 간격 설정")]
@@ -25,6 +32,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject FButton;//야차 버튼 온오프용
     [SerializeField] GameObject Warning;
     [SerializeField] GameObject CButton;//청소버튼
+    [SerializeField] GameObject HButton;//가리기 버튼. 관객이 보고 있을 때만 나온다
 
     [SerializeField] float timer = 8f;//8초마다 이상현상 출몰
 
@@ -165,22 +173,105 @@ public class GameManager : MonoBehaviour
         //괴물 스폰되는 방은 그 괴물 인덱스 +100
     }
 
+
+    public int ZoneCount
+    {
+        get { return anoArr.Length; }
+    }
+
+    public bool IsValidZone(int zone)
+    {
+        return zone >= 0 && zone < anoArr.Length;
+    }
+
+    // 그 구역에서 이상현상이 발생중인지
+    public bool IsAnomalyActive(int zone)
+    {
+        return IsValidZone(zone) && anoEnabled[zone];
+    }
+
+    // 발생중이면서  노출된 이상현상인지
+    public bool IsAnomalyExposed(int zone)
+    {
+        return IsAnomalyActive(zone) && !anoHidden[zone];
+    }
+
+    public bool IsAnomalyHidden(int zone)
+    {
+        return IsValidZone(zone) && anoHidden[zone];
+    }
+
+    public bool IsCrowdInZone(int zone)
+    {
+        return IsValidZone(zone) && isCrowd[zone];
+    }
+
+    public void SetCrowd(int zone, bool value)
+    {
+        if (IsValidZone(zone))
+            isCrowd[zone] = value;
+    }
+
+    // 관객이 보고 있는 구역에서는 야차X
+    public bool CanFightHere
+    {
+        get { return IsValidZone(now) && canYacha[now] && !isCrowd[now]; }
+    }
+
+    public bool CanHideHere
+    {
+        get { return IsValidZone(now) && anoEnabled[now] && !anoHidden[now]; }
+    }
+
+    // 가리기
+    public void HideAnomaly()
+    {
+        if (!CanHideHere)
+            return;
+
+        anoHidden[now] = true;
+        mode = 0;
+    }
+
+    public void RevealAnomaly(int zone)
+    {
+        if (IsValidZone(zone))
+            anoHidden[zone] = false;
+    }
+
     public void YachaWin()
     {
-        canYacha[now] = false;
-        anoEnabled[now] = false;
+        ResolveAnomaly(now);
         fightButton.WalkMode();
-        AnomalyObjArr[anoIndex[now]].transform.GetChild(0).gameObject.SetActive(false);
         mode = 0;
+
+        if (yachaWinBonus != 0 && ReputationSystem.Instance != null)
+            ReputationSystem.Instance.Add(yachaWinBonus);
     }
 
     public void YachaLose()//이러면 평판까임
     {
-        canYacha[now] = false;
-        anoEnabled[now] = false;
+        ResolveAnomaly(now);
         fightButton.WalkMode();
-        AnomalyObjArr[anoIndex[now]].transform.GetChild(0).gameObject.SetActive(false);
         mode = 0;
+
+        if (ReputationSystem.Instance != null)
+            ReputationSystem.Instance.Add(-yachaLosePenalty);
+    }
+
+    // 이상현상 처리될 때
+    void ResolveAnomaly(int zone)
+    {
+        if (!IsValidZone(zone))
+            return;
+
+        canYacha[zone] = false;
+        anoEnabled[zone] = false;
+        anoHidden[zone] = false;
+
+        int objIndex = anoIndex[zone] % 100;
+        if (objIndex >= 0 && objIndex < AnomalyObjArr.Length && AnomalyObjArr[objIndex] != null)
+            AnomalyObjArr[objIndex].transform.GetChild(0).gameObject.SetActive(false);
     }
 
     private void Awake()
@@ -192,7 +283,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (canYacha[now])//야차뜰수있으면 야차버튼 활성화
+        if (CanFightHere)//야차뜰수있고 관객도 없으면 야차버튼 활성화
         {
             FButton.SetActive(true);
         }
@@ -201,7 +292,7 @@ public class GameManager : MonoBehaviour
             FButton.SetActive(false); 
         }
 
-        if (anoEnabled[now]&& anoArr[now]==1)
+        if (IsValidZone(now) && anoEnabled[now] && anoArr[now] == 1 && !anoHidden[now])
         {
             CButton.SetActive(true);
         }
@@ -209,26 +300,31 @@ public class GameManager : MonoBehaviour
         {
             CButton.SetActive(false); 
         }
-        if (Keyboard.current.aKey.wasPressedThisFrame && now != 0 && now != 11)
+
+        if (HButton != null)
         {
-            now--;
+            HButton.SetActive(CanHideHere && IsCrowdInZone(now));
         }
-        if (Keyboard.current.dKey.wasPressedThisFrame && now!=10&&now!=21)
-        {
-            now++;
-        }
+
     }
 
     public void StartFight()//야차 시작하면 호출. 이때부터 상대가 다가오거나 이동함
     {
+        if (!CanFightHere)
+            return;
+
         int objIndex = anoIndex[now] % 100;
         AnomalyObjArr[objIndex].transform.GetChild(0).GetComponent<MoveAno>().Move();
         mode = 3;
     }
 
-    IEnumerator ChangeAno()//8초마다 호출되며 이상현상을 발생시킴.
+    IEnumerator ChangeAno()//8초마다 호출되며 이상현상을 발생
     {
         yield return new WaitForSeconds(timer);
+
+        if (ReputationSystem.Instance != null && ReputationSystem.Instance.IsGameOver)
+            yield break;//엔딩으로 넘어가는 중이면 더 스폰하지 않는다
+
         Warning.SetActive(true);//화면에 경고표시
 
         // [추가] 1. 스폰 가능한 방이 있는지 먼저 확인

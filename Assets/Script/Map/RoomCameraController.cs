@@ -19,10 +19,16 @@ public class RoomCameraController : MonoBehaviour
     Camera cam;
     RectTransform roomRect;
     int currentZone;
+    int currentFloor;
 
     public int CurrentZone
     {
         get { return currentZone; }
+    }
+
+    public int CurrentFloor
+    {
+        get { return currentFloor; }
     }
 
     void Awake()
@@ -39,6 +45,7 @@ public class RoomCameraController : MonoBehaviour
         ApplyAspectRatio();
         FitRoomHeightToScreen();
         MoveContent(GetDistanceToZone(), 0f);
+        SyncGameManagerZone();
     }
 
     void Update()
@@ -70,34 +77,46 @@ public class RoomCameraController : MonoBehaviour
         if (Keyboard.current == null)
             return;
 
+        int before = currentZone;
+
         // A, D 키로 좌우 방 이동
         if (Keyboard.current.dKey.wasPressedThisFrame)
             currentZone = Mathf.Min(currentZone + 1, zoneLayout.zoneCount - 1);
 
         if (Keyboard.current.aKey.wasPressedThisFrame)
             currentZone = Mathf.Max(currentZone - 1, 0);
+
+        if (currentZone != before)
+            SyncGameManagerZone();
     }
 
-    // ==========================================
-    // [UI 버튼에 연결할 함수 2개] - 이름 및 기능 맞교환
-    // ==========================================
-
-    /// <summary>
-    /// MoveUp: Y축 -500 위치로 즉시 순간이동
-    /// </summary>
     public void MoveUp()
     {
+        if (currentFloor == 1)
+            return;
+
+        currentFloor = 1;
         ApplyYShiftInstant(-yShiftAmount);
-        gameManager.now += 11;
+        SyncGameManagerZone();
     }
 
-    /// <summary>
-    /// MoveDown: 원래 Y축 위치(0)로 즉시 순간이동
-    /// </summary>
     public void MoveDown()
     {
+        if (currentFloor == 0)
+            return;
+
+        currentFloor = 0;
         ApplyYShiftInstant(0f);
-        gameManager.now -= 11;
+        SyncGameManagerZone();
+    }
+
+    // GameManager.now = 층 * 11 + 현재 구역
+    void SyncGameManagerZone()
+    {
+        if (gameManager == null)
+            return;
+
+        gameManager.now = currentFloor * GameManager.ZonesPerFloor + currentZone;
     }
 
     // Y축 좌표를 즉시 변경하는 내부 함수
