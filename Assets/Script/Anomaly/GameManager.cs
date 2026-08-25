@@ -26,8 +26,8 @@ public class GameManager : MonoBehaviour
 
     private Vector3[] basePositions;
     [Header("위치 간격 설정")]
-    [SerializeField] private float roomOffsetX = 4.725f;  
-    [SerializeField] private float floorOffsetY = 6.55f; 
+    private float roomOffsetX = 3.3f;  
+    private float floorOffsetY = 4.4f; 
 
     [SerializeField] GameObject FButton;//야차 버튼 온오프용
     [SerializeField] GameObject Warning;

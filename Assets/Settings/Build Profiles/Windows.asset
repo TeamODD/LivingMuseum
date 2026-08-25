@@ -23,8 +23,17 @@ MonoBehaviour:
   m_OverrideGlobalSceneList: 1
   m_Scenes:
   - m_enabled: 1
+    m_path: Assets/Scenes/StartScene.unity
+    m_guid: 3f63dcd0e9db86c48aadee3372de8bf8
+  - m_enabled: 1
     m_path: Assets/Scenes/MainGame.unity
     m_guid: 6ce07a1792629c240872f27cd42baeff
+  - m_enabled: 1
+    m_path: Assets/Scenes/GameOver.unity
+    m_guid: 273b7b09b263f9544a481fc4c7d9b53b
+  - m_enabled: 1
+    m_path: Assets/Scenes/GoodEnding.unity
+    m_guid: 5fde57c31e9ed554792ea7e3fad748e0
   m_HasScriptingDefines: 0
   m_ScriptingDefines: []
   m_PlayerSettingsYaml:
