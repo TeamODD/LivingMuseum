@@ -136,6 +136,7 @@ GameObject:
   - component: {fileID: 1838798}
   - component: {fileID: 1838799}
   - component: {fileID: 1838800}
+  - component: {fileID: 1838801}
   m_Layer: 0
   m_Name: Hamster
   m_TagString: Jump1
@@ -454,6 +455,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpSound
   jumpSound: {fileID: 1838799}
+--- !u!114 &1838801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1838791}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1001 &12218223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -547,6 +564,7 @@ GameObject:
   - component: {fileID: 15510596}
   - component: {fileID: 15510597}
   - component: {fileID: 15510598}
+  - component: {fileID: 15510599}
   m_Layer: 0
   m_Name: "\uB530\uBD09\uB9AC\uC790"
   m_TagString: Untagged
@@ -715,6 +733,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.87, y: 1.2399029}
   m_EdgeRadius: 0
+--- !u!114 &15510599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 15510593}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484bfdde29b0ba545a1146d48e6276c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickDead
+  CleanButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &19066223
 GameObject:
   m_ObjectHideFlags: 0
@@ -911,7 +944,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC804\uD22C\uC900\uBE44"
+  m_text: "\uC8FD\uC778\uB2E4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 641f20169b3843b46bf92959386ed39f, type: 2}
   m_sharedMaterial: {fileID: 4864203150288968089, guid: 641f20169b3843b46bf92959386ed39f, type: 2}
@@ -1296,6 +1329,7 @@ GameObject:
   - component: {fileID: 70565161}
   - component: {fileID: 70565162}
   - component: {fileID: 70565163}
+  - component: {fileID: 70565164}
   m_Layer: 0
   m_Name: PillarMan
   m_TagString: Jump2
@@ -1614,6 +1648,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::JumpSound
   jumpSound: {fileID: 70565162}
+--- !u!114 &70565164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70565154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &90526499
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +2449,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4d19c09c4dd2ede4a8bde031680f487d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2007130692}
+    - targetCorrespondingSourceObject: {fileID: -2253911629886400664, guid: 4d19c09c4dd2ede4a8bde031680f487d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2007130693}
   m_SourcePrefab: {fileID: -8435245712485981826, guid: 4d19c09c4dd2ede4a8bde031680f487d, type: 3}
 --- !u!1 &338761573
 GameObject:
@@ -3271,6 +3324,7 @@ GameObject:
   - component: {fileID: 469955927}
   - component: {fileID: 469955928}
   - component: {fileID: 469955929}
+  - component: {fileID: 469955930}
   m_Layer: 0
   m_Name: KissRose
   m_TagString: Untagged
@@ -3439,6 +3493,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.74, y: 1.0761497}
   m_EdgeRadius: 0
+--- !u!114 &469955930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 469955924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484bfdde29b0ba545a1146d48e6276c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickDead
+  CleanButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &477359869
 GameObject:
   m_ObjectHideFlags: 0
@@ -3485,6 +3554,7 @@ GameObject:
   - component: {fileID: 496063710}
   - component: {fileID: 496063712}
   - component: {fileID: 496063713}
+  - component: {fileID: 496063714}
   m_Layer: 0
   m_Name: Frame_0
   m_TagString: Untagged
@@ -3653,6 +3723,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 1.08, y: 1.7822748}
   m_EdgeRadius: 0
+--- !u!114 &496063714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496063708}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484bfdde29b0ba545a1146d48e6276c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickDead
+  CleanButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &497124185
 GameObject:
   m_ObjectHideFlags: 0
@@ -3928,14 +4013,14 @@ GameObject:
   - component: {fileID: 547800028}
   - component: {fileID: 547800027}
   - component: {fileID: 547800026}
-  - component: {fileID: 547800025}
+  - component: {fileID: 547800029}
   m_Layer: 5
   m_Name: PassButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &547800024
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3956,26 +4041,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -324}
   m_SizeDelta: {x: 150, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &547800025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 547800023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b90c2ca06ba9a9740aaa70b6ec64f068, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::HideButton
-  gameManager: {fileID: 1214708511}
-  Hide1: {fileID: 1900398474}
-  Hide2: {fileID: 552397905}
-  Hide3: {fileID: 1775369472}
-  TmpObj: {fileID: 0}
-  HideTxt: {fileID: 1472475420}
-  rand: 0
-  isHide: 0
 --- !u!114 &547800026
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4020,9 +4085,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 547800025}
-        m_TargetAssemblyTypeName: HideButton, Assembly-CSharp
-        m_MethodName: ClickHide
+      - m_Target: {fileID: 547800029}
+        m_TargetAssemblyTypeName: PassButton, Assembly-CSharp
+        m_MethodName: ClickPass
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4070,6 +4135,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 547800023}
   m_CullTransparentMesh: 1
+--- !u!114 &547800029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 547800023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5431cf7acf3ad1c41afd375b3b6736d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PassButton
+  fightButton: {fileID: 1765573348}
+  cleanButton: {fileID: 1829669619}
+  hideButton: {fileID: 548977825}
 --- !u!1 &548977825
 GameObject:
   m_ObjectHideFlags: 0
@@ -4089,7 +4169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &548977826
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4221,6 +4301,7 @@ MonoBehaviour:
   Hide2: {fileID: 552397905}
   Hide3: {fileID: 1775369472}
   TmpObj: {fileID: 0}
+  passButton: {fileID: 547800023}
   HideTxt: {fileID: 1387427395}
   rand: 0
   isHide: 0
@@ -5162,6 +5243,7 @@ GameObject:
   - component: {fileID: 876792118}
   - component: {fileID: 876792119}
   - component: {fileID: 876792120}
+  - component: {fileID: 876792121}
   m_Layer: 0
   m_Name: VenusOjisan
   m_TagString: Untagged
@@ -5369,6 +5451,22 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   isleft: 1
+  gameManager: {fileID: 0}
+--- !u!114 &876792121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 876792112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!1 &895067254
 GameObject:
@@ -6503,10 +6601,7 @@ MonoBehaviour:
   anoHidden: 00000000000000000000000000000000000000000000
   yachaLosePenalty: 15
   yachaWinBonus: 0
-  FButton: {fileID: 1765573348}
   Warning: {fileID: 477359869}
-  CButton: {fileID: 1829669619}
-  HButton: {fileID: 548977825}
   timer: 10
   bgm1: {fileID: 1214708521}
   bgm2: {fileID: 1214708520}
@@ -7847,6 +7942,7 @@ GameObject:
   - component: {fileID: 1419851803}
   - component: {fileID: 1419851804}
   - component: {fileID: 1419851805}
+  - component: {fileID: 1419851806}
   m_Layer: 0
   m_Name: CoddackG
   m_TagString: Untagged
@@ -8061,6 +8157,21 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.39229017, y: 0.48796844}
   m_EdgeRadius: 0
+--- !u!114 &1419851806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419851799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 484bfdde29b0ba545a1146d48e6276c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickDead
+  CleanButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &1421673018
 GameObject:
   m_ObjectHideFlags: 0
@@ -8281,6 +8392,7 @@ GameObject:
   - component: {fileID: 1439812639}
   - component: {fileID: 1439812641}
   - component: {fileID: 1439812642}
+  - component: {fileID: 1439812643}
   m_Layer: 0
   m_Name: KissGirl
   m_TagString: Untagged
@@ -8406,6 +8518,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.95, y: 2.08, z: 0.2}
   m_Center: {x: 0.07500002, y: -0.13999999, z: 0}
+--- !u!114 &1439812643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439812638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &1455875466
 GameObject:
   m_ObjectHideFlags: 0
@@ -8517,6 +8645,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RoomCameraController
   moveroom: {fileID: 1455875473}
   footstep: {fileID: 1455875474}
+  FightButton: {fileID: 1765573348}
+  CleanButton: {fileID: 1829669619}
+  HideButton: {fileID: 548977825}
+  PassButton: {fileID: 547800023}
   zoneLayout: {fileID: 2109812627}
   contentRoot: {fileID: 1135275106}
   startZoneIndex: 0
@@ -9379,6 +9511,7 @@ GameObject:
   - component: {fileID: 1570317461}
   - component: {fileID: 1570317462}
   - component: {fileID: 1570317463}
+  - component: {fileID: 1570317464}
   m_Layer: 0
   m_Name: DDackDDackE
   m_TagString: Untagged
@@ -9587,6 +9720,22 @@ MonoBehaviour:
   right: {fileID: 0}
   isleft: 1
   gameManager: {fileID: 0}
+--- !u!114 &1570317464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1570317456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &1600257833
 GameObject:
   m_ObjectHideFlags: 0
@@ -9737,7 +9886,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCCAD\uC18C"
+  m_text: "\uCE58\uC6B4\uB2E4"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 641f20169b3843b46bf92959386ed39f, type: 2}
   m_sharedMaterial: {fileID: 4864203150288968089, guid: 641f20169b3843b46bf92959386ed39f, type: 2}
@@ -10137,7 +10286,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1765573349
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10266,9 +10415,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FightButton
   left: {fileID: 1854419795}
   right: {fileID: 1310009441}
-  gameManager: {fileID: 0}
-  hideButton: {fileID: 0}
+  gameManager: {fileID: 1214708511}
+  hideButton: {fileID: 548977831}
   GetReadyForTheNextBattle: {fileID: 1472581399}
+  passButton: {fileID: 547800023}
 --- !u!1 &1775369472 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7141328701672244205, guid: eb88d76715214e640939f3e7a41b23b1, type: 3}
@@ -10351,6 +10501,7 @@ GameObject:
   - component: {fileID: 1782430435}
   - component: {fileID: 1782430436}
   - component: {fileID: 1782430437}
+  - component: {fileID: 1782430438}
   m_Layer: 0
   m_Name: FlyingTorso
   m_TagString: Untagged
@@ -10558,6 +10709,22 @@ MonoBehaviour:
   left: {fileID: 0}
   right: {fileID: 0}
   isleft: 1
+  gameManager: {fileID: 0}
+--- !u!114 &1782430438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1782430428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
   gameManager: {fileID: 0}
 --- !u!1 &1810211696
 GameObject:
@@ -10881,7 +11048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1829669620
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11009,6 +11176,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CleanButtion
   gameManager: {fileID: 1214708511}
+  passButton: {fileID: 547800023}
 --- !u!1 &1854419795
 GameObject:
   m_ObjectHideFlags: 0
@@ -11136,6 +11304,7 @@ GameObject:
   - component: {fileID: 1874118325}
   - component: {fileID: 1874118324}
   - component: {fileID: 1874118326}
+  - component: {fileID: 1874118327}
   m_Layer: 0
   m_Name: Stranger
   m_TagString: Untagged
@@ -11261,6 +11430,22 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.81999993, y: 2.09, z: 0.2}
   m_Center: {x: -0.11999999, y: 0.120000064, z: 0}
+--- !u!114 &1874118327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1874118322}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &1900398474 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3483121441327207841, guid: 401659358f601bc46892d9b727c3d647, type: 3}
@@ -11995,6 +12180,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2007130693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007130683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5acc9305724e1bc4cacb7bd5d4ae73ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ClickLive
+  FightButton: {fileID: 0}
+  HideButton: {fileID: 0}
+  PassButton: {fileID: 0}
+  gameManager: {fileID: 0}
 --- !u!1 &2109812625
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,9 +2,10 @@
 using UnityEngine;
 using UnityEngine.Video;
 
-public class CleanButtion : MonoBehaviour
+public class CleanButton : MonoBehaviour
 {
     [SerializeField] GameManager gameManager;
+    [SerializeField] GameObject passButton;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,5 +20,7 @@ public class CleanButtion : MonoBehaviour
     public void ClickClean()
     {
         gameManager.mode = 2;
+        gameObject.SetActive(false);
+        passButton.SetActive(false);
     }
 }

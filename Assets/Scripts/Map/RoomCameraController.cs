@@ -11,6 +11,11 @@ public class RoomCameraController : MonoBehaviour
 {    
     [SerializeField] AudioSource moveroom;
     [SerializeField] AudioSource footstep;
+    [SerializeField] GameObject FightButton;
+    [SerializeField] GameObject CleanButton;
+    [SerializeField] GameObject HideButton;
+    [SerializeField] GameObject PassButton;
+
     public RoomZoneLayout zoneLayout;
     public RectTransform contentRoot;
     public int startZoneIndex = 0;
@@ -29,6 +34,14 @@ public class RoomCameraController : MonoBehaviour
     RectTransform roomRect;
     int currentZone;
     int currentFloor;
+
+    public void HideButtons()
+    {
+        FightButton.SetActive(false);
+        CleanButton.SetActive(false);
+        HideButton.SetActive(false);   
+        PassButton.SetActive(false);
+    }
 
     public int CurrentZone
     {
@@ -93,6 +106,7 @@ public class RoomCameraController : MonoBehaviour
         {
             currentZone = Mathf.Min(currentZone + 1, zoneLayout.zoneCount - 1);
             gameManager.now++;
+            HideButtons();
             footstep.Play();
         }
            
@@ -100,6 +114,7 @@ public class RoomCameraController : MonoBehaviour
         {
             currentZone = Mathf.Max(currentZone - 1, 0);
             gameManager.now--;
+            HideButtons();
             footstep.Play();
         }
             

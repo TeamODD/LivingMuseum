@@ -29,10 +29,7 @@ public class GameManager : MonoBehaviour
     private float roomOffsetX = 13.35f;//이상현상 스폰 시 x좌표 차이
     private float floorOffsetY = 13.8f; //이상현상 스폰 시 y좌표 차이
 
-    [SerializeField] GameObject FButton;//야차 버튼 온오프용
     [SerializeField] GameObject Warning;
-    [SerializeField] GameObject CButton;//청소버튼
-    [SerializeField] GameObject HButton;//가리기 버튼. 관객이 보고 있을 때만 나온다
 
     [SerializeField] float timer = 8f;//8초마다 이상현상 출몰
 
@@ -231,6 +228,11 @@ public class GameManager : MonoBehaviour
         get { return IsValidZone(now) && canYacha[now] && isCrowd[now]; }//생물인데 관객 있으면 가리기
     }
 
+    public bool CanCleanHere
+    {
+        get { return anoEnabled[now] && !CanFightHere && !CanHideHere; }
+    }
+
     // 가리기
     public void HideAnomaly()
     {
@@ -302,34 +304,32 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("가리기" + CanHideHere);
-        Debug.Log("야차" + CanFightHere);
-        if (CanFightHere)//야차뜰수있고 관객도 없으면 야차버튼 활성화
-        {
-            FButton.SetActive(true);
-        }
-        else
-        { 
-            FButton.SetActive(false); 
-        }
+        //if (CanFightHere)//야차뜰수있고 관객도 없으면 야차버튼 활성화
+        //{
+        //    FButton.SetActive(true);
+        //}
+        //else
+        //{ 
+        //    FButton.SetActive(false); 
+        //}
 
-        if(CanHideHere)//야차가 가능한데 관객이 있으면 가리기 버튼 활성화
-        {
-            HButton.SetActive(true);
-        }
-        else
-        {
-            HButton.SetActive(false);
-        }
+        //if(CanHideHere)//야차가 가능한데 관객이 있으면 가리기 버튼 활성화
+        //{
+        //    HButton.SetActive(true);
+        //}
+        //else
+        //{
+        //    HButton.SetActive(false);
+        //}
 
-        if (anoEnabled[now]&&!CanFightHere&&!CanHideHere)//적이 있는데 못싸우고 못감추면 청소버튼
-        {
-            CButton.SetActive(true);
-        }
-        else
-        {
-            CButton.SetActive(false);
-        }
+        //if (anoEnabled[now]&&!CanFightHere&&!CanHideHere)//적이 있는데 못싸우고 못감추면 청소버튼
+        //{
+        //    CButton.SetActive(true);
+        //}
+        //else
+        //{
+        //    CButton.SetActive(false);
+        //}
 
     }
 

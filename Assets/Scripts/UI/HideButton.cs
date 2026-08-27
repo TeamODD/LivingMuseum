@@ -8,6 +8,7 @@ public class HideButton : MonoBehaviour
     [SerializeField] GameObject Hide2;
     [SerializeField] GameObject Hide3;
     [SerializeField] GameObject TmpObj;
+    [SerializeField] GameObject passButton;
     [SerializeField] TextMeshProUGUI HideTxt;
     [SerializeField] private int rand;
     public bool isHide=false;//가리고 있으면 true
@@ -25,7 +26,9 @@ public class HideButton : MonoBehaviour
 
     public void ClickHide()
     {
-        if(isHide)
+        gameObject.SetActive(false);
+        passButton.SetActive(false);
+        if (isHide)
         {
             isHide = false;
             gameManager.mode = 0;
