@@ -24,7 +24,7 @@ public class AudienceGroup : MonoBehaviour
         //Canvas 컴포넌트를 생성하여 레이어 오더를 11로 지정
         Canvas groupCanvas = gameObject.AddComponent<Canvas>();
         groupCanvas.overrideSorting = true;
-        groupCanvas.sortingOrder = 11;
+        groupCanvas.sortingOrder = 50;
 
         rect = GetComponent<RectTransform>();
 
