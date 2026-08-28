@@ -112,7 +112,6 @@ public class GameManager : MonoBehaviour
         }
         System.Array.Clear(anoArr, 0, anoArr.Length);
 
-        // [수정] anoIndex.Length(22) 대신 실제 셔플 구역 수인 18로 변경
         for (int slot = 0; slot < 18; slot++)
         {
             int anoValue = anoIndex[slot];
@@ -122,7 +121,7 @@ public class GameManager : MonoBehaviour
                 int objIndex = anoValue;
                 GameObject targetObj = AnomalyObjArr[objIndex];
 
-                if (targetObj != null)
+                if (targetObj != null && objIndex < 12)
                 {
                     int roomX = slot % 9;        // 0 ~ 8 (구역 번호)
                     int floorIndex = slot / 9;   // 0 (1층) 또는 1 (2층)
@@ -143,6 +142,17 @@ public class GameManager : MonoBehaviour
         }
 
         ReorderAnoArr(); // ANOARR 및 anoIndex 재정렬
+
+        anoArr[3] = 1;
+        anoArr[6] = 1;
+        anoArr[9] = 1;
+        anoArr[20] = 1;
+        //고정된 장식품 이상현상 4개도 1로 설정
+
+        anoIndex[3] = 12;
+        anoIndex[6] = 13;
+        anoIndex[9] = 14;
+        anoIndex[20] = 15;
     }
 
     void ReorderAnoArr()
@@ -171,19 +181,16 @@ public class GameManager : MonoBehaviour
         anoArr[4] = 3;
         anoArr[15] = 3;
         //관객 이상현상은 3으로 설정
-
+        
         anoIndex[0] = 99;
         anoIndex[10] = 99;
         anoIndex[11] = 99;
         anoIndex[21] = 99;
-        //문 칸에 해당하는 이상객체는 없으므로 99로
+        //문 칸에 해당하는 이상객체는 없으므로 99로        
 
-        anoIndex[3] = 107;
-        anoIndex[6] = 101;
-        anoIndex[9] = 105;
         anoIndex[14] = 118;
         anoIndex[17] = 112;
-        anoIndex[20] = 116;
+        
         //괴물 스폰되는 방은 그 괴물 인덱스 +100
     }
 
