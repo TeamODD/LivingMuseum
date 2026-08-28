@@ -12,4 +12,9 @@ public class JumpSound : MonoBehaviour
             jumpSound.Play();
         }
     }
+
+    //public void ActiveFalse()
+    //{
+    //    gameObject.SetActive(false);
+    //}
 }

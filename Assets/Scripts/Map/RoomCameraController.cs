@@ -102,7 +102,7 @@ public class RoomCameraController : MonoBehaviour
         int before = currentZone;
 
         // A, D 키로 좌우 방 이동
-        if (Keyboard.current.dKey.wasPressedThisFrame&&canMove && gameManager.now != 10 && gameManager.now != 21)
+        if (Keyboard.current.dKey.wasPressedThisFrame&&canMove && gameManager.now != 10 && gameManager.now != 21 && gameManager.mode==0)
         {
             currentZone = Mathf.Min(currentZone + 1, zoneLayout.zoneCount - 1);
             gameManager.now++;
@@ -110,7 +110,7 @@ public class RoomCameraController : MonoBehaviour
             footstep.Play();
         }
            
-        if (Keyboard.current.aKey.wasPressedThisFrame&&canMove && gameManager.now != 0 && gameManager.now != 11)
+        if (Keyboard.current.aKey.wasPressedThisFrame&&canMove && gameManager.now != 0 && gameManager.now != 11 && gameManager.mode==0)
         {
             currentZone = Mathf.Max(currentZone - 1, 0);
             gameManager.now--;

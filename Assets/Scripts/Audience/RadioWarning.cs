@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using TMPro;
 using UnityEngine;
 
@@ -8,8 +8,8 @@ public class RadioWarning : MonoBehaviour
     public TextMeshProUGUI messageText;
     public AudioSource staticSound;
 
-    public float hiddenY = -220f;
-    public float shownY = 60f;
+    float hiddenY = -280f;
+    float shownY = 60f;
     public float slideDuration = 0.4f;
     public float holdDuration = 2.5f;
 

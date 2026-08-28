@@ -26,16 +26,18 @@ public class ClickLive : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (gameManager.CanFightHere)//야차뜰수있고 관객도 없으면 야차버튼 활성화
+        if(gameManager.mode==0)
         {
-            FightButton.SetActive(true);
-            PassButton.SetActive(true);
-        }
-        else if (gameManager.CanHideHere)//야차가 가능한데 관객이 있으면 가리기 버튼 활성화
-        {
-            HideButton.SetActive(true);
-            PassButton.SetActive(true);
-        }
-
+            if (gameManager.CanFightHere)//야차뜰수있고 관객도 없으면 야차버튼 활성화
+            {
+                FightButton.SetActive(true);
+                PassButton.SetActive(true);
+            }
+            else if (gameManager.CanHideHere)//야차가 가능한데 관객이 있으면 가리기 버튼 활성화
+            {
+                HideButton.SetActive(true);
+                PassButton.SetActive(true);
+            }
+        }       
     }
 }

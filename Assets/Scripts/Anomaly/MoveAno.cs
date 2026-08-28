@@ -19,14 +19,13 @@ public class MoveAno : MonoBehaviour
 
     public void Move()
     {
+        beforePosition = transform.position;
+        beforScale = transform.localScale;
         StartCoroutine("JumpScare");
         if (!noMove)
-        {
-            beforePosition = transform.position;
-            beforScale = transform.localScale;
+        {        
             if (isApproach)
             {
-                // [수정] 고정값 2가 아니라 원래 크기(beforScale)에 배율을 곱해 일정하게 확대
                 transform.DOScale(beforScale * scaleMultiplier, approachDuration);
 
                 if (TryGetComponent<HitButton>(out var hitButton))
@@ -65,9 +64,14 @@ public class MoveAno : MonoBehaviour
     IEnumerator JumpScare()
     {
         yield return new WaitForSeconds(5);//5초안에 못잡으면 패배
+        StopCoroutine("Move1");
+        StopCoroutine("Move2");
+        fixPosition();
         gameObject.GetComponent<Animator>().SetTrigger("Jump");      
         yield return new WaitForSeconds(2f);//점프스퀘어 다 끝나고 패배 사운드
         GameObject.Find("GameManager").GetComponent<GameManager>().YachaLose();
+        GetComponent<HitButton>().GlitchStop();
+        gameObject.SetActive(false);
     }
     IEnumerator Move1() // 가로로 움직이는 애
     {

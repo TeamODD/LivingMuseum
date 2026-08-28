@@ -21,7 +21,10 @@ public class ClickDead : MonoBehaviour
 
     private void OnMouseDown()
     {
-        CleanButton.SetActive(true);
-        PassButton.SetActive(true);
+        if (gameManager.mode==0)
+        {
+            CleanButton.SetActive(true);
+            PassButton.SetActive(true);
+        }      
     }
 }

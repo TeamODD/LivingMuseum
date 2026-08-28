@@ -9,8 +9,8 @@ public class HideButton : MonoBehaviour
     [SerializeField] GameObject Hide3;
     [SerializeField] GameObject TmpObj;
     [SerializeField] GameObject passButton;
-    [SerializeField] TextMeshProUGUI HideTxt;
     [SerializeField] private int rand;
+    
     public bool isHide=false;//가리고 있으면 true
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,15 +32,13 @@ public class HideButton : MonoBehaviour
         {
             isHide = false;
             gameManager.mode = 0;
-            HideTxt.text = "가리기";
             TmpObj.GetComponent<Animator>().SetTrigger("Back");//이 애니메이션 끝나면 자동으로 오브젝트 false되도록 설정해놓음
         }
         else
         {
             isHide= true;
             gameManager.mode = 1;
-            rand = Random.Range(0, 3);
-            HideTxt.text = "가리기 종료";
+            rand = Random.Range(0, 3);           
             if (rand == 0)
             {
                 TmpObj = Hide1;

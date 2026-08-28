@@ -131,7 +131,7 @@ public class AudienceSystem : MonoBehaviour
                 continue;
 
             string prefix = string.IsNullOrEmpty(warningLabel) ? "" : "[" + warningLabel + "] ";
-            radio.Show(prefix + "Audience entering in " + Mathf.RoundToInt(warningTimes[i]) + " seconds");
+            radio.Show(prefix + "관객 입장까지 " + Mathf.RoundToInt(warningTimes[i]) + " 초!");
             warningShown[i] = true;
         }
     }

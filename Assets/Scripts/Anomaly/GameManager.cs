@@ -39,7 +39,16 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioSource yachalose;    
     [SerializeField] AudioSource yachastart;    
     [SerializeField] AudioSource spawnsound;
-    [SerializeField] AudioSource clean;   
+    [SerializeField] AudioSource clean;
+
+
+    [Header("가리기 모드(Mode 1) 커서 UI 설정")]
+    [SerializeField] private GameObject customCursorUI;   // 이미지+텍스트가 들어있는 UI 오브젝트
+    [SerializeField] private Canvas parentCanvas;          // ★ customCursorUI가 속해 있는 Canvas
+    [SerializeField] private HideButton hideButton;
+
+    private RectTransform cursorRectTransform;
+    private int previousMode = -1;
 
     void SetupAnomalyIndices()
     {
@@ -233,21 +242,6 @@ public class GameManager : MonoBehaviour
         get { return anoEnabled[now] && !CanFightHere && !CanHideHere; }
     }
 
-    // 가리기
-    public void HideAnomaly()
-    {
-        if (!CanHideHere)
-            return;
-
-        anoHidden[now] = true;
-        mode = 0;
-    }
-
-    public void RevealAnomaly(int zone)
-    {
-        if (IsValidZone(zone))
-            anoHidden[zone] = false;
-    }
 
     public void YachaWin()
     {
@@ -259,7 +253,7 @@ public class GameManager : MonoBehaviour
         }      
         canYacha[now] = false;
         anoEnabled[now] = false;
-        fightButton.WalkMode();
+        fightButton.WalkMode();//주먹 아래로 내리기
         mode = 0;
 
         if (yachaWinBonus != 0 && ReputationSystem.Instance != null)
@@ -273,7 +267,7 @@ public class GameManager : MonoBehaviour
         yachalose.Play();
         canYacha[now] = false;
         anoEnabled[now] = false;
-        fightButton.WalkMode();
+        fightButton.WalkMode();//주먹 아래로 내리기
         mode = 0;
 
         if (ReputationSystem.Instance != null)
@@ -300,6 +294,11 @@ public class GameManager : MonoBehaviour
         SetupAnomalyIndices();
         SpawnAno();
         StartCoroutine("ChangeAno");
+
+        if (customCursorUI != null)
+        {
+            cursorRectTransform = customCursorUI.GetComponent<RectTransform>();
+        }
     }
 
     private void Update()
@@ -331,7 +330,67 @@ public class GameManager : MonoBehaviour
         //    CButton.SetActive(false);
         //}
 
+
+        // 1. mode 변경에 따른 마우스 커서 UI 활성화/비활성화 처리
+        if (mode != previousMode)
+        {
+            HandleCursorChange(mode);
+            previousMode = mode;
+        }
+
+        // 2. mode가 1일 때: UI가 마우스를 따라다니도록 처리 & 우클릭 감지
+        if (mode == 1)
+        {
+            if (Mouse.current != null)
+            {
+                Vector2 mousePos = Mouse.current.position.ReadValue();
+
+                // ★ 마우스 픽셀 좌표를 Canvas 로컬 좌표로 안전하게 변환
+                if (parentCanvas != null && cursorRectTransform != null)
+                {
+                    Camera uiCamera = parentCanvas.renderMode == RenderMode.ScreenSpaceOverlay ? null : parentCanvas.worldCamera;
+
+                    if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                        parentCanvas.transform as RectTransform,
+                        mousePos,
+                        uiCamera,
+                        out Vector2 localPoint))
+                    {
+                        cursorRectTransform.anchoredPosition = localPoint;
+                    }
+                }
+
+                // 마우스 우클릭 시 가리기 실행
+                if (Mouse.current.rightButton.wasPressedThisFrame)
+                {
+                    if (hideButton != null)
+                    {
+                        hideButton.ClickHide();
+                    }
+                }
+            }
+        }
     }
+
+
+    private void HandleCursorChange(int currentMode)
+    {
+        if (currentMode == 1)
+        {
+            Cursor.visible = false;
+            anoHidden[now] = true;
+            if (customCursorUI != null)
+                customCursorUI.SetActive(true);
+        }
+        else
+        {
+            Cursor.visible = true;
+            anoHidden[now] = false;
+            if (customCursorUI != null)
+                customCursorUI.SetActive(false);
+        }
+    }
+
 
     public void StartFight()//야차 시작하면 호출. 이때부터 상대가 다가오거나 이동함
     {
@@ -386,7 +445,7 @@ public class GameManager : MonoBehaviour
         int objIndex = anoIndex[rand];
         AnomalyObjArr[objIndex].transform.GetChild(0).gameObject.SetActive(true);//그 이상현상 나오게
 
-        if (anoArr[rand] == 2)
+        if (anoArr[rand] == 2 || anoArr[rand] == 3)
         {
             canYacha[rand] = true;//그 방에서 야차뜰수 있으면 true
         }

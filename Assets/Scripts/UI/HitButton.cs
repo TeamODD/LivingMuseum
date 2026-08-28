@@ -93,7 +93,13 @@ public class HitButton : MonoBehaviour
     {
         StartCoroutine("Glitch");
     }
-
+    public void GlitchStop()
+    {
+        StopCoroutine("Glitch");
+        analogGlitch.scanLineJitter = 0;
+        analogGlitch.colorDrift = 0;
+        analogGlitch.horizontalShake = 0;
+    }
     public void ShakeCamera()
     {
         targetCamera.DOKill(true);
