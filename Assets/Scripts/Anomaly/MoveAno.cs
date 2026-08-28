@@ -13,6 +13,8 @@ public class MoveAno : MonoBehaviour
     [Header("접근 연출 설정")]
     [SerializeField] float scaleMultiplier = 2f; // 원래 크기 대비 몇 배로 커질지 (기본 2배)
     [SerializeField] float approachDuration = 10f; // 커지는 시간
+    [SerializeField] float circleRadius = 1f; // 추가: 원을 그리는 반경
+    [SerializeField] float circleSpeed = 3f;  // 추가: 도는 속도
 
     private Vector3 beforePosition;
     private Vector3 beforScale;
@@ -23,10 +25,13 @@ public class MoveAno : MonoBehaviour
         beforScale = transform.localScale;
         StartCoroutine("JumpScare");
         if (!noMove)
-        {        
+        {
             if (isApproach)
             {
                 transform.DOScale(beforScale * scaleMultiplier, approachDuration);
+
+                // 🔥 추가된 부분: 빙빙 도는 코루틴 시작
+                StartCoroutine("CircleMove");
 
                 if (TryGetComponent<HitButton>(out var hitButton))
                 {
@@ -58,21 +63,42 @@ public class MoveAno : MonoBehaviour
     public void fixPosition()
     {
         transform.DOKill(); // 위치/크기 트윈 중단
-        transform.position = beforePosition;
-        transform.localScale = beforScale;
+        //transform.position = beforePosition;
+        //transform.localScale = beforScale;
     }
+
     IEnumerator JumpScare()
     {
         yield return new WaitForSeconds(5);//5초안에 못잡으면 패배
         StopCoroutine("Move1");
         StopCoroutine("Move2");
+        StopCoroutine("CircleMove"); // 🔥 추가된 부분: 코루틴 정지
         fixPosition();
-        gameObject.GetComponent<Animator>().SetTrigger("Jump");      
+        gameObject.GetComponent<Animator>().SetTrigger("Jump");
         yield return new WaitForSeconds(2f);//점프스퀘어 다 끝나고 패배 사운드
         GameObject.Find("GameManager").GetComponent<GameManager>().YachaLose();
         GetComponent<HitButton>().GlitchStop();
         gameObject.SetActive(false);
     }
+
+    // 🔥 추가된 부분: 원을 그리며 다가오게 하는 코루틴
+    IEnumerator CircleMove()
+    {
+        float angle = 0f;
+        while (true)
+        {
+            angle += Time.deltaTime * circleSpeed;
+
+            // (Mathf.Cos(angle) - 1f)를 사용하여 시작 지점에서 뚝 끊기지 않고 자연스럽게 돌기 시작함
+            float x = (Mathf.Cos(angle) - 1f) * circleRadius;
+            float y = Mathf.Sin(angle) * circleRadius;
+
+            transform.position = beforePosition + new Vector3(x, y, 0f);
+
+            yield return null;
+        }
+    }
+
     IEnumerator Move1() // 가로로 움직이는 애
     {
         int x = Random.Range(-amount1, amount2);
@@ -85,7 +111,7 @@ public class MoveAno : MonoBehaviour
     {
         int y = Random.Range(-amount1, amount2);
         transform.DOLocalMoveY(y, 0.2f);
-        yield return new WaitForSeconds(0.4f);
+        yield return new WaitForSeconds(0.2f);
         StartCoroutine(nameof(Move2));
     }
 }
